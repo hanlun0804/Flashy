@@ -39,7 +39,7 @@ export default function Profile() {
       </section>
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
         <div id="title" className="flex pb-4">
-          <h3 className="text-xl">Your Flashcards</h3>
+          <h3 className="text-xl mt-4">Your Flashcards</h3>
           <Button className="ml-auto w-44">New set</Button>
         </div>
         <Separator className="bg-black w-full h-px mb-4" />
