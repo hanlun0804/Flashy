@@ -16,6 +16,9 @@ export default function Profile() {
     {
       title: "TDT4300 - Datawarehousing and Data Mining",
     },
+    {
+      title: "IT2810 - Web Development",
+    },
   ];
 
   return (
@@ -33,16 +36,20 @@ export default function Profile() {
           <h2>Admin</h2>
         </div>
         <div id="buttons" className="mt-6">
-          <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary]">
+          <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             Favourites
           </Button>
-          <Button className="bg-[--clr_secondary]">X</Button>
+          <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary]">
+            X
+          </Button>
         </div>
       </section>
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
         <div id="title" className="flex pb-4">
           <h3 className="text-xl mt-4">Your Flashcards</h3>
-          <Button className="ml-auto w-44 bg-[--clr_secondary]">New set</Button>
+          <Button className="ml-auto w-44 bg-[--clr_secondary] hover:bg-[--clr_primary]">
+            New set
+          </Button>
         </div>
         <Separator className="bg-[--clr_text] w-full h-px mb-4 opacity-50" />
         <ul>
@@ -50,7 +57,7 @@ export default function Profile() {
             return (
               <Card
                 key={index}
-                className="mb-4 bg-[--clr_secondary] border-none shadow-md"
+                className="mb-4 bg-[--clr_secondary] border-none shadow-md hover:outline-[--clr_text] hover:outline cursor-pointer"
               >
                 <CardHeader>
                   <CardTitle className="text-[--clr_text]">
@@ -58,7 +65,9 @@ export default function Profile() {
                   </CardTitle>
                 </CardHeader>
                 <CardFooter className="p-3">
-                  <Button className="ml-auto mr-2 px-6">Edit</Button>
+                  <Button className="ml-auto mr-2 px-6 bg-[--clr_primary]">
+                    Edit
+                  </Button>
                   <Button className="px-6 bg-green-600 hover:bg-green-700">
                     Start
                   </Button>
