@@ -72,6 +72,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: var(--clr_bg);
+    color: var(--clr_text);
   }
 }
 
@@ -80,9 +82,4 @@
   --clr_primary: #274060;
   --clr_secondary: #485265;
   --clr_text: #e8f0ff;
-}
-
-body {
-  background-color: var(--clr_bg);
-  color: var(--clr_text);
 }
