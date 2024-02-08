@@ -14,39 +14,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import Alert from "./alert";
 
+/**
+ * Form schema, Zod form validation
+ */
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
-  }),
-  picture: z.string().url({
-    message: "Please provide a valid URL",
-  }),
+  username: z.any(),
+  password: z.any(),
+  picture: z.any(),
 });
 
 export function SettingsForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-      picture: "",
-    },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4 mb-8">
-        <section className="">
+        <section>
           <FormField
             control={form.control}
             name="username"
@@ -82,7 +71,8 @@ export function SettingsForm() {
             )}
           />
         </section>
-        <section className="mt-0">
+
+        <section>
           <FormField
             control={form.control}
             name="picture"
@@ -103,7 +93,9 @@ export function SettingsForm() {
             )}
           />
         </section>
+
         <DrawerFooter className="flex-row justify-end p-0">
+          {/* Alert popup to comfirm account deletion */}
           <Alert />
           <DrawerClose>
             <Button className="px-6 bg-green-600 hover:bg-green-700">
