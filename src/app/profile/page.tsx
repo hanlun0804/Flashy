@@ -5,30 +5,16 @@ import { Separator } from "@/components/ui/separator";
 import { Settings } from "../../components/profileSettingsDrawer";
 
 export default function Profile() {
-  // Temporary data for UI testing
-  const cards = [
-    {
-      title: "TDT4140 - Software Engineering",
-    },
-    {
-      title: "TDT4160 - Computers and Digital Design",
-    },
-    {
-      title: "TDT4305 - Big Data Architecture",
-    },
-    {
-      title: "TDT4300 - Datawarehousing and Data Mining",
-    },
-    {
-      title: "IT2810 - Web Development",
-    },
-  ];
-
   // Test user for simple logic
   const user = {
     name: "Navn Navnesen",
     role: "Admin",
     password: "admin",
+    sets: [
+      "TDT4140 - Software Engineering",
+      "TDT4160 - Computers and Digital Design",
+      "TDT4305 - Big Data Architecture",
+    ],
   };
 
   return (
@@ -74,7 +60,7 @@ export default function Profile() {
 
         {/* List of user's flashcards */}
         <ul>
-          {cards.map((card, index) => {
+          {user.sets.map((set, index) => {
             return (
               <Card
                 key={index}
@@ -82,9 +68,7 @@ export default function Profile() {
               >
                 {/* Flashcard set's title */}
                 <CardHeader>
-                  <CardTitle className="text-[--clr_text]">
-                    {card.title}
-                  </CardTitle>
+                  <CardTitle className="text-[--clr_text]">{set}</CardTitle>
                 </CardHeader>
 
                 {/* Edit and start flashcards buttons */}
