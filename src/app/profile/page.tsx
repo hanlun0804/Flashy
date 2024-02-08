@@ -1,17 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
+import { Settings } from "./settings";
 
 export default function Profile() {
   const cards = [
@@ -52,26 +43,7 @@ export default function Profile() {
           <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             Favourites
           </Button>
-          <Drawer>
-            <DrawerTrigger>
-              <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary]">
-                Settings
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent className="bg-[--clr_secondary] border-none">
-              <DrawerHeader>
-                <DrawerTitle>Profile Settings</DrawerTitle>
-              </DrawerHeader>
-
-              <DrawerFooter>
-                <DrawerClose>
-                  <Button className="px-6 bg-green-600 hover:bg-green-700 float-end">
-                    Save
-                  </Button>
-                </DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+          <Settings />
         </div>
       </section>
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
