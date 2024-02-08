@@ -45,61 +45,65 @@ export function SettingsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem className="w-60">
-              <FormLabel>Display Name:</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Navn Navnesen"
-                  className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="w-60">
-              <FormLabel>Password:</FormLabel>
-              <FormControl>
-                <Input
-                  className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
-                  type="password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="picture"
-          render={() => (
-            <FormItem className="w-60">
-              <FormLabel>Profile Picture:</FormLabel>
-              <FormControl>
-                <div className="grid max-w-sm items-center gap-1.5 w-60">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4 mb-8">
+        <section className="">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem className="w-60">
+                <FormLabel>Display Name:</FormLabel>
+                <FormControl>
                   <Input
-                    id="picture"
-                    type="file"
+                    placeholder="Navn Navnesen"
                     className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                    {...field}
                   />
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <DrawerFooter className="flex-row justify-end">
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="w-60">
+                <FormLabel>Password:</FormLabel>
+                <FormControl>
+                  <Input
+                    className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                    type="password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </section>
+        <section className="mt-0">
+          <FormField
+            control={form.control}
+            name="picture"
+            render={() => (
+              <FormItem className="w-60">
+                <FormLabel>Profile Picture:</FormLabel>
+                <FormControl>
+                  <div className="grid max-w-sm items-center gap-1.5 w-60">
+                    <Input
+                      id="picture"
+                      type="file"
+                      className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </section>
+        <DrawerFooter className="flex-row justify-end p-0">
           <Alert />
           <DrawerClose>
             <Button className="px-6 bg-green-600 hover:bg-green-700">

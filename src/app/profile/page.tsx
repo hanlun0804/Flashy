@@ -35,10 +35,10 @@ export default function Profile() {
             NN
           </AvatarFallback>
         </Avatar>
-        <div id="account_information" className="flex-1 mt-6 text-xl">
+        <section id="account_information" className="flex-1 mt-6 text-xl">
           <h1 className="font-medium">Navn Navnesen</h1>
           <h2>Admin</h2>
-        </div>
+        </section>
         <div id="buttons" className="mt-6">
           <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             Favourites
