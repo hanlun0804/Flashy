@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Alert from "./alert";
+import Alert from "./profileDeletionAlert";
 
 /**
  * Form schema, Zod form validation
@@ -43,6 +43,7 @@ export function SettingsForm(user: {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4 mb-8">
+        {/* Column 1 - Display Name & Password */}
         <section>
           <FormField
             control={form.control}
@@ -80,6 +81,7 @@ export function SettingsForm(user: {
           />
         </section>
 
+        {/* Column 2 - Profile Image & Save / Delete Account */}
         <section>
           <FormField
             control={form.control}
@@ -100,17 +102,16 @@ export function SettingsForm(user: {
               </FormItem>
             )}
           />
+          <DrawerFooter className="flex-row pl-0 float-end mt-auto bottom-4 absolute">
+            {/* Alert popup to comfirm account deletion */}
+            <Alert />
+            <DrawerClose>
+              <Button className="px-[22px] bg-green-600 hover:bg-green-700">
+                Save
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
         </section>
-
-        <DrawerFooter className="flex-row justify-end p-0">
-          {/* Alert popup to comfirm account deletion */}
-          <Alert />
-          <DrawerClose>
-            <Button className="px-6 bg-green-600 hover:bg-green-700">
-              Save
-            </Button>
-          </DrawerClose>
-        </DrawerFooter>
       </form>
     </Form>
   );

@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import { SettingsForm } from "./form";
+import { SettingsForm } from "./profileSettingsForm";
 
 export function Settings(user: {
   name: string;
@@ -20,14 +20,11 @@ export function Settings(user: {
       <DrawerTrigger className="bg-[--clr_secondary] hover:bg-[--clr_primary] h-10 rounded-lg px-4 py-2">
         Settings
       </DrawerTrigger>
-
-      <DrawerContent className="bg-[--clr_secondary] border-none w-7/12 mx-auto">
-        <DrawerHeader className="pl-8">
+      <DrawerContent className="bg-[--clr_secondary] border-none w-min mx-auto px-8">
+        <DrawerHeader className="pl-0">
           <DrawerTitle>Profile Settings</DrawerTitle>
         </DrawerHeader>
-        <section className="pl-8">
-          <SettingsForm {...user} />
-        </section>
+        <SettingsForm {...user} />
       </DrawerContent>
     </Drawer>
   );

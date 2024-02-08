@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Settings } from "./settings";
+import { Settings } from "../../components/profileSettingsDrawer";
 
 export default function Profile() {
   // Temporary data for UI testing
@@ -62,15 +62,17 @@ export default function Profile() {
 
       {/* List of user's flashcards, inlucing new flashcards button */}
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
-        <div id="title" className="flex pb-4">
+        {/* Flashcard section title and 'new' button */}
+        <section id="title" className="flex pb-4">
           <h3 className="text-xl mt-4">Your Flashcards</h3>
           <Button className="ml-auto w-44 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             New set
           </Button>
-        </div>
+        </section>
 
         <Separator className="bg-[--clr_text] w-full h-px mb-4 opacity-50" />
 
+        {/* List of user's flashcards */}
         <ul>
           {cards.map((card, index) => {
             return (
