@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Separator } from "@/components/ui/separator";
 
 export default function Profile() {
@@ -27,10 +29,12 @@ export default function Profile() {
         id="header_information"
         className="inline-flex gap-20 w-full p-5"
       >
-        <div
-          id="image_placeholder"
-          className="w-36 h-36 bg-red bg-[--clr_secondary] rounded-[1rem] mt-6"
-        ></div>
+        <Avatar className="w-36 h-36 rounded-md mt-6 bg-[--clr_secondary]">
+          <AvatarImage src="" />
+          <AvatarFallback className=" bg-[--clr_secondary] text-2xl">
+            NN
+          </AvatarFallback>
+        </Avatar>
         <div id="account_information" className="flex-1 mt-6 text-xl">
           <h1 className="font-medium">Navn Navnesen</h1>
           <h2>Admin</h2>
