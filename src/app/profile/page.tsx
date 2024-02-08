@@ -24,6 +24,13 @@ export default function Profile() {
     },
   ];
 
+  // Test user for simple logic
+  const user = {
+    name: "Navn Navnesen",
+    role: "Admin",
+    password: "admin",
+  };
+
   return (
     <main className="flex-auto max-w-screen-lg mx-auto mt-1">
       <section
@@ -49,7 +56,7 @@ export default function Profile() {
           <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             Favourites
           </Button>
-          <Settings />
+          <Settings {...user} />
         </div>
       </section>
 

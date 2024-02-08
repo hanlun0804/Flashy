@@ -25,9 +25,17 @@ const formSchema = z.object({
   picture: z.any(),
 });
 
-export function SettingsForm() {
+export function SettingsForm(user: {
+  name: string;
+  role: string;
+  password: string;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: user.name,
+      password: user.password,
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {}

@@ -10,7 +10,11 @@ import {
 
 import { SettingsForm } from "./form";
 
-export function Settings() {
+export function Settings(user: {
+  name: string;
+  role: string;
+  password: string;
+}) {
   return (
     <Drawer>
       <DrawerTrigger className="bg-[--clr_secondary] hover:bg-[--clr_primary] h-10 rounded-lg px-4 py-2">
@@ -22,7 +26,7 @@ export function Settings() {
           <DrawerTitle>Profile Settings</DrawerTitle>
         </DrawerHeader>
         <section className="pl-8">
-          <SettingsForm />
+          <SettingsForm {...user} />
         </section>
       </DrawerContent>
     </Drawer>
