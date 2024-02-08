@@ -41,14 +41,14 @@ export default function Profile() {
         <Avatar className="w-36 h-36 rounded-md mt-6 bg-[--clr_secondary]">
           <AvatarImage src="" />
           <AvatarFallback className=" bg-[--clr_secondary] text-2xl">
-            NN
+            {user.name[0] + user.name.split(" ")[1][0]}
           </AvatarFallback>
         </Avatar>
 
         {/* User information section */}
         <section id="account_information" className="flex-1 mt-6 text-xl">
-          <h1 className="font-medium">Navn Navnesen</h1>
-          <h2>Admin</h2>
+          <h1 className="font-medium">{user.name}</h1>
+          <h2>{user.role}</h2>
         </section>
 
         {/* Favourites and settings button container */}
