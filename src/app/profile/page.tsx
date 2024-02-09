@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Settings } from "../../components/profileSettingsDrawer";
+import { Settings } from "../../components/profile/settings-drawer";
 
 export default function Profile() {
   // Test user for simple logic

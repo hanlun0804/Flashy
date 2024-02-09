@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import Alert from "./profileDeletionAlert";
+import Alert from "./deletion-alert";
 
 /**
  * Form schema, Zod form validation

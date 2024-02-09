@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import { SettingsForm } from "./profileSettingsForm";
+import { SettingsForm } from "./settings-form";
 
 export function Settings(user: {
   name: string;
