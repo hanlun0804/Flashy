@@ -1,6 +1,12 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+  Firestore,
+  getDocs,
+  getFirestore,
+  Query,
+  runTransaction,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 export const firebaseConfig = {
@@ -17,3 +23,11 @@ export const firebaseApp =
 export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
+
+export async function deleteQueryBatch(db: Firestore, query: Query) {
+  const snapshot = await getDocs(query);
+
+  await runTransaction(db, async (transaction) => {
+    snapshot.docs.forEach((doc) => transaction.delete(doc.ref));
+  });
+}
