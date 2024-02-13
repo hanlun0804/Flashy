@@ -1,21 +1,31 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Settings } from "../../components/profile/settings-drawer";
+import { getUserById, login } from "@/actions/login-actions";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
 
 export default function Profile() {
-  // Test user for simple logic
-  const user = {
-    name: "Navn Navnesen",
-    role: "Admin",
-    password: "admin",
-    sets: [
-      "TDT4140 - Software Engineering",
-      "TDT4160 - Computers and Digital Design",
-      "TDT4305 - Big Data Architecture",
-    ],
-  };
+  /* const testData = {
+    email: "testbrukerforflashy@ntnu.no",
+    password: "Passord",
+  }; */
+  //login(testData);
+  const { data: user } = useQuery({
+    queryKey: ["user", "KsfiUHkT6lhh2xxE4tg0fhBROHj2"],
+    queryFn: () => getUserById("etSQaj7nNuZHYhJrGlpkn7KIMsu2"),
+  });
+
+  const sets = [
+    "TDT4140 - Software Engineering",
+    "TDT4160 - Computers and Digital Design",
+    "TDT4305 - Big Data Architecture",
+  ];
 
   return (
     <main className="flex-auto max-w-screen-lg mx-auto mt-1">
@@ -23,26 +33,40 @@ export default function Profile() {
         id="header_information"
         className="inline-flex gap-20 w-full p-5"
       >
-        {/* User profile picture */}
         <Avatar className="w-36 h-36 rounded-md mt-6 bg-[--clr_secondary]">
           <AvatarImage src="" />
           <AvatarFallback className=" bg-[--clr_secondary] text-2xl">
-            {user.name[0] + user.name.split(" ")[1][0]}
+            {user
+              ? user!.name.split(" ").length > 1
+                ? user!.name[0] + user!.name.split(" ")[1][0]
+                : user!.name[0] + user!.name[0]
+              : "FL"}
           </AvatarFallback>
         </Avatar>
 
         {/* User information section */}
-        <section id="account_information" className="flex-1 mt-6 text-xl">
-          <h1 className="font-medium">{user.name}</h1>
-          <h2>{user.role}</h2>
-        </section>
+        <Suspense
+          fallback={
+            <div>
+              <Skeleton className="w-36 h-6 mb-2" />
+              <Skeleton className="w-36 h-6" />
+            </div>
+          }
+        >
+          <section id="account_information" className="flex-1 mt-6 text-xl">
+            <h1 className="font-medium">{user?.name}</h1>
+            <h2>{user?.role}</h2>
+          </section>
+        </Suspense>
 
         {/* Favourites and settings button container */}
         <div id="buttons" className="mt-6">
           <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
             Favourites
           </Button>
-          <Settings {...user} />
+          <Suspense fallback={<Skeleton className="w-10 h-10" />}>
+            <Settings {...user!} />
+          </Suspense>
         </div>
       </section>
 
@@ -60,29 +84,39 @@ export default function Profile() {
 
         {/* List of user's flashcards */}
         <ul>
-          {user.sets.map((set, index) => {
-            return (
-              <Card
-                key={index}
-                className="mb-4 bg-[--clr_secondary] border-none shadow-md hover:outline-[--clr_text] hover:outline cursor-pointer"
-              >
-                {/* Flashcard set's title */}
-                <CardHeader>
-                  <CardTitle className="text-[--clr_text]">{set}</CardTitle>
-                </CardHeader>
+          <Suspense
+            fallback={
+              <div>
+                <Skeleton className="w-96 h-16" />
+                <Skeleton className="w-96 h-16" />
+                <Skeleton className="w-96 h-16" />
+              </div>
+            }
+          >
+            {sets.map((set, index) => {
+              return (
+                <Card
+                  key={index}
+                  className="mb-4 bg-[--clr_secondary] border-none shadow-md hover:outline-[--clr_text] hover:outline cursor-pointer"
+                >
+                  {/* Flashcard set's title */}
+                  <CardHeader>
+                    <CardTitle className="text-[--clr_text]">{set}</CardTitle>
+                  </CardHeader>
 
-                {/* Edit and start flashcards buttons */}
-                <CardFooter className="p-3">
-                  <Button className="ml-auto mr-2 px-6 bg-[--clr_primary]">
-                    Edit
-                  </Button>
-                  <Button className="px-6 bg-green-600 hover:bg-green-700">
-                    Start
-                  </Button>
-                </CardFooter>
-              </Card>
-            );
-          })}
+                  {/* Edit and start flashcards buttons */}
+                  <CardFooter className="p-3">
+                    <Button className="ml-auto mr-2 px-6 bg-[--clr_primary]">
+                      Edit
+                    </Button>
+                    <Button className="px-6 bg-green-600 hover:bg-green-700">
+                      Start
+                    </Button>
+                  </CardFooter>
+                </Card>
+              );
+            })}
+          </Suspense>
         </ul>
       </section>
     </main>
