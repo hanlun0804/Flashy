@@ -11,6 +11,7 @@ import {
 import { SettingsForm } from "./settings-form";
 
 export function Settings(user: {
+  id: string;
   name: string;
   role: string;
   password: string;

@@ -15,17 +15,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Alert from "./deletion-alert";
+import { editUser } from "@/actions/login-actions";
 
 /**
  * Form schema, Zod form validation
  */
 const formSchema = z.object({
-  username: z.any(),
+  name: z.any(),
   password: z.any(),
   picture: z.any(),
 });
 
 export function SettingsForm(user: {
+  id: string;
   name: string;
   role: string;
   password: string;
@@ -33,12 +35,15 @@ export function SettingsForm(user: {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: user.name,
+      name: user.name,
       password: user.password,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    editUser(user.id, values);
+    setTimeout(() => location.reload(), 250);
+  }
 
   return (
     <Form {...form}>
@@ -47,14 +52,14 @@ export function SettingsForm(user: {
         <section>
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem className="w-60">
                 <FormLabel>Display Name:</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Navn Navnesen"
-                    className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                    className="text-[--clr_text] placeholder:text-[--clr_secondary] bg-[--clr_fg]"
                     {...field}
                   />
                 </FormControl>
@@ -70,7 +75,7 @@ export function SettingsForm(user: {
                 <FormLabel>Password:</FormLabel>
                 <FormControl>
                   <Input
-                    className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                    className="text-[--clr_text] placeholder:text-[--clr_secondary] bg-[--clr_fg] "
                     type="password"
                     {...field}
                   />
@@ -94,7 +99,7 @@ export function SettingsForm(user: {
                     <Input
                       id="picture"
                       type="file"
-                      className="text-[--clr_bg] placeholder:text-[--clr_secondary]"
+                      className="text-[--clr_text] placeholder:text-[--clr_secondary] bg-[--clr_fg]"
                     />
                   </div>
                 </FormControl>
