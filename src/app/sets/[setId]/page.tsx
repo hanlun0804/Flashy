@@ -49,7 +49,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
         <section className="flex flex-col space-y-4 w-full">
           {set && <FlashcardSetOptions set={set} onDelete={onDelete} />}
           <Separator />
-          <Button className="w-full py-8 bg-emerald-400 shadow-xl font-bold hover:bg-emerald-500">
+          <Button className="w-full py-8 shadow-xl" variant="positive">
             PLAY NOW
             <Play className="ml-2" size={16} />
           </Button>

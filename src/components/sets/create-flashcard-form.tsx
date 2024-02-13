@@ -91,10 +91,7 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             )}
           />
           <DialogClose>
-            <Button
-              type="submit"
-              className="w-full py-2 bg-emerald-400 shadow-xl font-bold hover:bg-emerald-500"
-            >
+            <Button type="submit" variant="positive">
               Add Flashcard
             </Button>
           </DialogClose>

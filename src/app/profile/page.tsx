@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Settings } from "../../components/profile/settings-drawer";
-import { getUserById, login } from "@/actions/login-actions";
+import { Settings } from "@/components/profile/settings-drawer";
+import { Pencil, Play, Plus, Star } from "lucide-react";
+import { getUserById } from "@/actions/login-actions";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
@@ -33,9 +34,9 @@ export default function Profile() {
         id="header_information"
         className="inline-flex gap-20 w-full p-5"
       >
-        <Avatar className="w-36 h-36 rounded-md mt-6 bg-[--clr_secondary]">
+        <Avatar className="w-36 h-36 mt-6">
           <AvatarImage src="" />
-          <AvatarFallback className=" bg-[--clr_secondary] text-2xl">
+          <AvatarFallback className="text-2xl">
             {user
               ? user!.name.split(" ").length > 1
                 ? user!.name[0] + user!.name.split(" ")[1][0]
@@ -55,13 +56,14 @@ export default function Profile() {
         >
           <section id="account_information" className="flex-1 mt-6 text-xl">
             <h1 className="font-medium">{user?.name}</h1>
-            <h2>{user?.role}</h2>
+            <h2 className="font-medium mt-2 text-gray-500">{user?.role}</h2>
           </section>
         </Suspense>
 
         {/* Favourites and settings button container */}
         <div id="buttons" className="mt-6">
-          <Button className="ml-auto mr-2 w-32 bg-[--clr_secondary] hover:bg-[--clr_primary]">
+          <Button className="ml-auto mr-2 w-32">
+            <Star className="mr-2" size={16} />
             Favourites
           </Button>
           <Suspense fallback={<Skeleton className="w-10 h-10" />}>
@@ -74,13 +76,14 @@ export default function Profile() {
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
         {/* Flashcard section title and 'new' button */}
         <section id="title" className="flex pb-4">
-          <h3 className="text-xl mt-4">Your Flashcards</h3>
-          <Button className="ml-auto w-44 bg-[--clr_secondary] hover:bg-[--clr_primary]">
+          <h3 className="text-xl mt-4">Your Flashcard Sets</h3>
+          <Button className="ml-auto w-44">
+            <Plus className="mr-2" size={16} />
             New set
           </Button>
         </section>
 
-        <Separator className="bg-[--clr_text] w-full h-px mb-4 opacity-50" />
+        <Separator className="w-full h-px mb-4" />
 
         {/* List of user's flashcards */}
         <ul>
@@ -95,22 +98,21 @@ export default function Profile() {
           >
             {sets.map((set, index) => {
               return (
-                <Card
-                  key={index}
-                  className="mb-4 bg-[--clr_secondary] border-none shadow-md hover:outline-[--clr_text] hover:outline cursor-pointer"
-                >
+                <Card key={index} className="mb-4 cursor-pointer">
                   {/* Flashcard set's title */}
                   <CardHeader>
                     <CardTitle className="text-[--clr_text]">{set}</CardTitle>
                   </CardHeader>
 
                   {/* Edit and start flashcards buttons */}
-                  <CardFooter className="p-3">
-                    <Button className="ml-auto mr-2 px-6 bg-[--clr_primary]">
+                  <CardFooter className="p-5">
+                    <Button className="ml-auto mr-2 px-6">
+                      <Pencil className="mr-2" size={16} />
                       Edit
                     </Button>
-                    <Button className="px-6 bg-green-600 hover:bg-green-700">
-                      Start
+                    <Button variant="positive">
+                      PLAY NOW
+                      <Play className="ml-2" size={16} />
                     </Button>
                   </CardFooter>
                 </Card>

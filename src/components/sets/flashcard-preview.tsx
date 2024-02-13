@@ -43,7 +43,7 @@ const FlashcardPreview = ({ flashcard, set }: FlashcardPreviewProps) => {
   };
 
   return (
-    <Card key={flashcard.id} className="flex flex-row p-8">
+    <Card key={flashcard.id} className="flex flex-row p-5">
       <div className="flex flex-col space-y-2">
         <span className="font-bold">{flashcard.question}</span>
         <span className="text-gray-500">Answer: {flashcard.answer}</span>

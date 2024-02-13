@@ -11,12 +11,14 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
 
 export default function Alert() {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
         <Button className="px-4 bg-red-600 hover:bg-red-800">
+          <Trash className="mr-2" size={16} />
           Delete my account
         </Button>
       </AlertDialogTrigger>
