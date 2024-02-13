@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/drawer";
 
 import { SettingsForm } from "./settings-form";
+import { Button } from "@/components/ui/button";
+import { SettingsIcon } from "lucide-react";
 
 export function Settings(user: {
   id: string;
@@ -18,10 +20,13 @@ export function Settings(user: {
 }) {
   return (
     <Drawer>
-      <DrawerTrigger className="bg-[--clr_secondary] hover:bg-[--clr_primary] h-10 rounded-lg px-4 py-2">
-        Settings
+      <DrawerTrigger asChild>
+        <Button className="w-32">
+          <SettingsIcon className="mr-2" size={16} />
+          Settings
+        </Button>
       </DrawerTrigger>
-      <DrawerContent className="bg-[--clr_secondary] border-none w-min mx-auto px-8">
+      <DrawerContent className="w-min mx-auto px-8">
         <DrawerHeader className="pl-0">
           <DrawerTitle>Profile Settings</DrawerTitle>
         </DrawerHeader>

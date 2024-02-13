@@ -7,14 +7,16 @@
     --background: 218, 24%, 9%;
     --foreground: 219, 100%, 95%;
 
-    --card: 218, 24%, 9%;
+    --card: 219, 24%, 23%;
     --card-foreground: 219, 100%, 95%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 212, 46%, 36%;
     --primary-foreground: 210 40% 98%;
+
+    --primary-hover: 212, 52%, 31%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -89,6 +91,10 @@ h3 {
   line-height: 1.2;
 }
 
+input::file-selector-button {
+  @apply bg-primary text-primary-foreground;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -102,7 +108,6 @@ h3 {
 
 :root {
   --clr_bg: #11151c;
-  --clr_fg: #2e3848;
   --clr_primary: #274060;
   --clr_secondary: #485265;
   --clr_text: #e8f0ff;

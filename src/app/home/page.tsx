@@ -12,9 +12,7 @@ const Home: React.FC = () => {
         Get started now
       </h2>
       <div className="mt-8">
-        <Button className="bg-[--clr_primary] hover:bg-[--clr_secondary] text-white px-12">
-          Get started
-        </Button>
+        <Button className="text-white px-12">Get started</Button>
       </div>
     </div>
   );

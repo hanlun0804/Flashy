@@ -49,7 +49,7 @@ export function SettingsForm(user: {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-4 mb-8">
         {/* Column 1 - Display Name & Password */}
-        <section>
+        <section className="space-y-4">
           <FormField
             control={form.control}
             name="name"
@@ -57,11 +57,7 @@ export function SettingsForm(user: {
               <FormItem className="w-60">
                 <FormLabel>Display Name:</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Navn Navnesen"
-                    className="text-[--clr_text] placeholder:text-[--clr_secondary] bg-[--clr_fg]"
-                    {...field}
-                  />
+                  <Input placeholder="Navn Navnesen" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,11 +70,7 @@ export function SettingsForm(user: {
               <FormItem className="w-60">
                 <FormLabel>Password:</FormLabel>
                 <FormControl>
-                  <Input
-                    className="text-[--clr_text] placeholder:text-[--clr_secondary] bg-[--clr_fg] "
-                    type="password"
-                    {...field}
-                  />
+                  <Input type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,15 +79,15 @@ export function SettingsForm(user: {
         </section>
 
         {/* Column 2 - Profile Image & Save / Delete Account */}
-        <section>
+        <section className="flex flex-col">
           <FormField
             control={form.control}
             name="picture"
             render={() => (
-              <FormItem className="w-60">
+              <FormItem className="w-full">
                 <FormLabel>Profile Picture:</FormLabel>
                 <FormControl>
-                  <div className="grid max-w-sm items-center gap-1.5 w-60">
+                  <div className="grid w-full items-center gap-1.5">
                     <Input
                       id="picture"
                       type="file"
@@ -107,11 +99,11 @@ export function SettingsForm(user: {
               </FormItem>
             )}
           />
-          <DrawerFooter className="flex-row pl-0 float-end mt-auto bottom-4 absolute">
-            {/* Alert popup to comfirm account deletion */}
+          <DrawerFooter className="flex-row p-0 float-end mt-auto">
+            {/* Alert popup to confirm account deletion */}
             <Alert />
             <DrawerClose>
-              <Button className="px-[22px] bg-green-600 hover:bg-green-700">
+              <Button variant="positive" className="w-full">
                 Save
               </Button>
             </DrawerClose>
