@@ -13,11 +13,7 @@ import {
 } from "firebase/auth";
 
 export const login = async (data: { email: string; password: string }) => {
-  const auth = getAuth(firebaseApp);
-  signInWithEmailAndPassword(auth, data.email, data.password).catch((error) => {
-    console.error(error.code, error.message);
-  });
-  setPersistence(auth, browserSessionPersistence);
+  await signInWithEmailAndPassword(auth, data.email, data.password);
 };
 
 export const getUserById = async (UserId: string): Promise<User> => {
