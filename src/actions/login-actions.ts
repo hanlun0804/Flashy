@@ -2,15 +2,9 @@
 
 import { User } from "@/types/user-type";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db, firebaseApp } from "@/lib/firebase/firebase";
+import { auth, db } from "@/lib/firebase/firebase";
 import { setDoc } from "firebase/firestore";
-import {
-  browserSessionPersistence,
-  getAuth,
-  setPersistence,
-  signInWithEmailAndPassword,
-  updatePassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, updatePassword } from "firebase/auth";
 
 export const login = async (data: { email: string; password: string }) => {
   await signInWithEmailAndPassword(auth, data.email, data.password);

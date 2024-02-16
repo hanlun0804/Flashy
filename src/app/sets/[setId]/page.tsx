@@ -49,10 +49,12 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
         <section className="flex flex-col space-y-4 w-full">
           {set && <FlashcardSetOptions set={set} onDelete={onDelete} />}
           <Separator />
-          <Button className="w-full py-8 shadow-xl" variant="positive">
-            PLAY NOW
-            <Play className="ml-2" size={16} />
-          </Button>
+          <a href={`${params.setId}/game`}>
+            <Button className="w-full py-8 shadow-xl" variant="positive">
+              PLAY NOW
+              <Play className="ml-2" size={16} />
+            </Button>
+          </a>
         </section>
 
         <section className="flex flex-col space-y-4 pb-12 w-full">
