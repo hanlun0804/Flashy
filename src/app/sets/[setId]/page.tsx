@@ -37,7 +37,6 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
       toast({
         title: "Set Deleted",
         description: "The flashcard set has been deleted",
-        variant: "destructive",
         duration: 3000,
       });
     });

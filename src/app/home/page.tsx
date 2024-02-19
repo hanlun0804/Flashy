@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const Home: React.FC = () => {
+const Home = () => {
   const router = useRouter();
 
   const handleGetStarted = () => {

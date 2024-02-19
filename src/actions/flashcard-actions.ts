@@ -41,7 +41,6 @@ export const createFlashcard = async (
   data: z.infer<typeof CreateFlashcardSchema>,
 ): Promise<void> => {
   const flashcardsCol = collection(db, "sets", set, "cards");
-  console.log(data);
   await addDoc(flashcardsCol, data);
 };
 

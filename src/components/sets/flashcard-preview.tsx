@@ -33,7 +33,6 @@ const FlashcardPreview = ({ flashcard, set }: FlashcardPreviewProps) => {
       toast({
         title: "Flashcard Deleted",
         description: "The flashcard has been deleted",
-        variant: "destructive",
         duration: 3000,
       });
       queryClient.invalidateQueries({

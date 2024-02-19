@@ -91,13 +91,12 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             )}
           />
           <DialogClose>
-            <Button type="submit" variant="positive">
+            <Button className="w-full" type="submit" variant="positive">
               Add Flashcard
             </Button>
           </DialogClose>
         </form>
       </Form>
-      <Toaster />
     </>
   );
 };

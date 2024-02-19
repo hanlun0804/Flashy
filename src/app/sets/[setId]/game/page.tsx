@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowBigRight } from "lucide-react";
+import { ArrowBigRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import "./style.css";
 import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
+import { Card } from "@/components/ui/card";
 
 interface FlashCardSetPageProps {
   params: {
@@ -28,7 +29,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   });
 
   if (!set) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   const handleNext = () => {
@@ -43,48 +44,40 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
         (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
     );
   };
-
-  //${showAnswer ? "clicked" : ""}
-
   const currentCard = set.flashcards[currentCardIndex];
 
   return (
     <div className="flex justify-center items-center w-full h-full flex-col pt-20">
-      <div className="flex justify-center items-center flip-card ">
+      <h1>Playing: {set.name}</h1>
+      <div className="flex justify-center items-center flip-card mt-8">
         <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
-          <Button
-            className={`flip-card-front hover:bg-[#192a40] flex justify-center items-center border-2 border-white p-30 bg-[#274060] relative ${showAnswer ? "clicked" : ""}`}
+          <Card
+            className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
             onClick={() => setShowAnswer(!showAnswer)}
           >
             <div className="absolute top-3 left-3 text-white p-2">
               {currentCardIndex + 1}/{set.flashcards.length}
             </div>
             <div>{currentCard.question}</div>
-          </Button>
+          </Card>
 
-          <Button
-            className="flip-card-back hover:bg-[#192a40] flex justify-center items-center border-2 border-white p-30 bg-[#274060] relative "
+          <Card
+            className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
             onClick={() => setShowAnswer(!showAnswer)}
           >
             <div className="absolute top-3 left-3 text-white p-2">
               {currentCardIndex + 1}/{set.flashcards.length}
             </div>
             <div>{currentCard.answer}</div>
-          </Button>
+          </Card>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center">
-        <Button
-          className="flex justify-center border-2 border-white p-10 m-10 hover:bg-[#274060]"
-          onClick={handlePrevious}
-        >
-          <ArrowBigLeft size={30} />
+      <div className="flex flex-wrap justify-center mt-6 space-x-6">
+        <Button className="flex justify-center p-10" onClick={handlePrevious}>
+          <ChevronLeft size={30} />
         </Button>
-        <Button
-          className="flex justify-center border-2 border-white p-10 m-10 hover:bg-[#274060]"
-          onClick={handleNext}
-        >
-          <ArrowBigRight size={30} />
+        <Button className="flex justify-center p-10" onClick={handleNext}>
+          <ChevronRight size={30} />
         </Button>
       </div>
     </div>
