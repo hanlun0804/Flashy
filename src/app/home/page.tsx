@@ -2,12 +2,13 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Home: React.FC = () => {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("sign-in-or-register");
+    router.push("/sign-in-or-register");
   };
   return (
     <div className="flex flex-col items-start justify-center h-screen px-20">
@@ -23,7 +24,7 @@ const Home: React.FC = () => {
           className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
           onClick={handleGetStarted}
         >
-          Get started
+          <Link href="/sign-in-or-register">Get started</Link>
         </Button>
       </div>
     </div>

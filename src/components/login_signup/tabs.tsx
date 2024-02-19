@@ -44,7 +44,7 @@ export function Tabobject() {
     setLoginError("");
     try {
       await login(data);
-      router.push("profile");
+      router.push("/profile");
     } catch (e: any) {
       setLoginError(e.message);
     }
@@ -54,7 +54,7 @@ export function Tabobject() {
     setSignupError("");
     try {
       await signup(data);
-      router.push("profile");
+      router.push("/profile");
     } catch (e: any) {
       setSignupError(e.message);
     }
