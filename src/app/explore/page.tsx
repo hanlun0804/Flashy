@@ -52,7 +52,7 @@ const Explore = ({ params }: ExploreProps) => {
   };
 
   return (
-    <main>
+    <main className="mt-16">
       {/* Searchbar with filter and sort button */}
       <div className="flex flex-row justify-center mb-12 w-full">
         <Search onSearchResults={handleSearchResults} />
