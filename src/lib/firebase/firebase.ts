@@ -8,6 +8,10 @@ import {
   runTransaction,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "@firebase/auth";
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -31,3 +35,19 @@ export async function deleteQueryBatch(db: Firestore, query: Query) {
     snapshot.docs.forEach((doc) => transaction.delete(doc.ref));
   });
 }
+
+/**
+ * Logs in a user with email and password
+ * @param data email and password
+ */
+export const login = async (data: { email: string; password: string }) => {
+  await signInWithEmailAndPassword(auth, data.email, data.password);
+};
+
+/**
+ * Signs up a user with email and password
+ * @param data email and password
+ */
+export const signup = async (data: { email: string; password: string }) => {
+  await createUserWithEmailAndPassword(auth, data.email, data.password);
+};

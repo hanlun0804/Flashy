@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import Alert from "./deletion-alert";
 import { editUser } from "@/actions/login-actions";
+import { User } from "@/types/user-type";
 
 /**
  * Form schema, Zod form validation
@@ -26,17 +27,12 @@ const formSchema = z.object({
   picture: z.any(),
 });
 
-export function SettingsForm(user: {
-  id: string;
-  name: string;
-  role: string;
-  password: string;
-}) {
+export function SettingsForm(user: User) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: user.name,
-      password: user.password,
+      password: "",
     },
   });
 

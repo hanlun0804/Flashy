@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -39,6 +40,31 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
 };
 
 /**
+ * Gets all flashcard sets created by a user
+ * @param userId the id of the user
+ * @returns a promise that resolves to an array of flashcard sets
+ */
+export const getFlashcardSets = async (
+  userId: string,
+): Promise<FlashcardSet[]> => {
+  const q = query(collection(db, "sets"), where("createdBy", "==", userId));
+
+  const sets: FlashcardSet[] = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    sets.push({
+      id: doc.id,
+      name: doc.data().name,
+      createdBy: doc.data().createdBy,
+      createdAt: doc.data().createdAt.toDate(),
+      updatedAt: doc.data().updatedAt.toDate(),
+      flashcards: [],
+    });
+  });
+  return sets;
+};
+
+/**
  * Deletes a flashcard set and it's flashcards from the database
  * @param id the id of the flashcard set
  */
@@ -48,6 +74,23 @@ export const deleteFlashcardSet = async (id: string): Promise<void> => {
 
   await deleteQueryBatch(db, cardsRef);
   await deleteDoc(docRef);
+};
+
+/**
+ *
+ * @param name name of the new flascard set
+ * @returns
+ */
+export const createFlashCardSet = async (name: string, userId: string) => {
+  const docRef = collection(db, "sets");
+  console.log("userId", userId);
+  const doc = await addDoc(docRef, {
+    name,
+    createdBy: userId,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+  return doc.id;
 };
 
 /**
