@@ -11,13 +11,9 @@ import {
 import { SettingsForm } from "./settings-form";
 import { Button } from "@/components/ui/button";
 import { SettingsIcon } from "lucide-react";
+import { User } from "@/types/user-type";
 
-export function Settings(user: {
-  id: string;
-  name: string;
-  role: string;
-  password: string;
-}) {
+export function Settings(user: User) {
   return (
     <Drawer>
       <DrawerTrigger asChild>

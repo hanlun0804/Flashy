@@ -4,18 +4,14 @@ import { User } from "@/types/user-type";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/firebase";
 import { setDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
 
-export const login = async (data: { email: string; password: string }) => {
-  await signInWithEmailAndPassword(auth, data.email, data.password);
-};
-
-export const getUserById = async (UserId: string): Promise<User> => {
-  const docRef = doc(db, "users", auth.currentUser?.uid || UserId);
+export const getUserById = async (id: string): Promise<User> => {
+  const docRef = doc(db, "users", id!);
   const snapshot = await getDoc(docRef);
 
   if (!snapshot.exists()) {
-    throw new Error("No user exists with that id.");
+    throw new Error("No such document!");
   }
 
   return {

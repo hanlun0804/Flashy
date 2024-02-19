@@ -6,27 +6,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Settings } from "@/components/profile/settings-drawer";
 import { Pencil, Play, Plus, Star } from "lucide-react";
-import { getUserById } from "@/actions/login-actions";
-import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import NewSet from "@/components/profile/new-set-dialog";
+import useUserSession from "@/hooks/use-user-session";
+import { getUserById } from "@/actions/login-actions";
+import { useQuery } from "@tanstack/react-query";
+import { getFlashcardSets } from "@/actions/flashcard-set-actions";
+import Link from "next/link";
 
 export default function Profile() {
-  /* const testData = {
-    email: "testbrukerforflashy@ntnu.no",
-    password: "Passord",
-  }; */
-  //login(testData);
+  const userSession = useUserSession();
+
   const { data: user } = useQuery({
-    queryKey: ["user", "KsfiUHkT6lhh2xxE4tg0fhBROHj2"],
-    queryFn: () => getUserById("etSQaj7nNuZHYhJrGlpkn7KIMsu2"),
+    queryKey: ["user", "user_id"],
+    queryFn: () => getUserById(userSession?.uid),
+    enabled: !!userSession,
   });
 
-  const sets = [
-    "TDT4140 - Software Engineering",
-    "TDT4160 - Computers and Digital Design",
-    "TDT4305 - Big Data Architecture",
-  ];
+  const { data: sets } = useQuery({
+    queryKey: ["sets", "user_id"],
+    queryFn: () => getFlashcardSets(userSession?.uid),
+    enabled: !!userSession,
+  });
+
+  if (!userSession) {
+    return null;
+  }
 
   return (
     <main className="flex-auto max-w-screen-lg mx-auto mt-1">
@@ -76,11 +82,8 @@ export default function Profile() {
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
         {/* Flashcard section title and 'new' button */}
         <section id="title" className="flex pb-4">
-          <h3 className="text-xl mt-4">Your Flashcard Sets</h3>
-          <Button className="ml-auto w-44">
-            <Plus className="mr-2" size={16} />
-            New set
-          </Button>
+          <h3 className="text-xl mt-4">Your Flashcards</h3>
+          <NewSet {...user!} />
         </section>
 
         <Separator className="w-full h-px mb-4" />
@@ -96,28 +99,33 @@ export default function Profile() {
               </div>
             }
           >
-            {sets.map((set, index) => {
-              return (
-                <Card key={index} className="mb-4 cursor-pointer">
-                  {/* Flashcard set's title */}
-                  <CardHeader>
-                    <CardTitle className="text-[--clr_text]">{set}</CardTitle>
-                  </CardHeader>
+            {sets &&
+              sets.map((set, index) => {
+                return (
+                  <Card key={index} className="mb-4 cursor-pointer">
+                    {/* Flashcard set's title */}
+                    <CardHeader>
+                      <CardTitle>{set.name}</CardTitle>
+                    </CardHeader>
 
-                  {/* Edit and start flashcards buttons */}
-                  <CardFooter className="p-5">
-                    <Button className="ml-auto mr-2 px-6">
-                      <Pencil className="mr-2" size={16} />
-                      Edit
-                    </Button>
-                    <Button variant="positive">
-                      PLAY NOW
-                      <Play className="ml-2" size={16} />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              );
-            })}
+                    {/* Edit and start flashcards buttons */}
+                    <CardFooter className="p-5">
+                      <Link className="ml-auto mr-4" href={`/sets/${set.id}`}>
+                        <Button className="px-6">
+                          <Pencil className="mr-2" size={16} />
+                          Edit
+                        </Button>
+                      </Link>
+                      <Link href={`/sets/${set.id}/game`}>
+                        <Button variant="positive">
+                          PLAY NOW
+                          <Play className="ml-2" size={16} />
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
           </Suspense>
         </ul>
       </section>

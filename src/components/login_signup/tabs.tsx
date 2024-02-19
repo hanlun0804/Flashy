@@ -14,15 +14,14 @@ import { z } from "zod";
 import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signup } from "@/actions/signup-actions";
-import { login } from "@/actions/login-actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import FormError from "../form-error";
+import { login, signup } from "@/lib/firebase/firebase";
 
 export const LoginQuestions = z.object({
   email: z.string().email().min(1),
-  password: z.string().min(8),
+  password: z.string().min(7),
 });
 
 export function Tabobject() {
