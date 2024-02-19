@@ -1,6 +1,14 @@
 "use server";
 
-import { collection, deleteDoc, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { FlashcardSet } from "@/types/flashcard-set";
 import { db, deleteQueryBatch } from "@/lib/firebase/firebase";
 import { getFlashcards } from "@/actions/flashcard-actions";
@@ -40,4 +48,30 @@ export const deleteFlashcardSet = async (id: string): Promise<void> => {
 
   await deleteQueryBatch(db, cardsRef);
   await deleteDoc(docRef);
+};
+
+/**
+ * Gets all flashcard sets from the database
+ * @returns a promise that resolves to all flashcard sets
+ */
+export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
+  const q = query(collection(db, "sets"));
+  // TODO: Add a where clause to only get public sets
+  const snapshot = await getDocs(q);
+  const res = snapshot.docs.map(async (document) => {
+    const userRef = doc(db, "users", document.data().createdBy);
+    const userSnapshot = await getDoc(userRef);
+
+    return {
+      id: document.id,
+      name: document.data().name,
+      createdBy:
+        (userSnapshot.data() as any)?.name || document.data().createdBy,
+      createdAt: document.data().createdAt.toDate(),
+      updatedAt: document.data().updatedAt.toDate(),
+      flashcards: [],
+    } as FlashcardSet;
+  });
+
+  return await Promise.all(res);
 };

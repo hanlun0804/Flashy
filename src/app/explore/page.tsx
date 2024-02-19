@@ -1,41 +1,22 @@
 "use client";
 
 import { FuseResult } from "fuse.js";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getAllSets } from "@/actions/sets-actions";
-
-import { ArrowDownWideNarrow, Filter } from "lucide-react";
 import FlashcardDisplay from "@/components/explore/flashcard-display";
 import Search from "@/components/explore/search";
-import React, { useEffect, useState } from "react";
-
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../lib/firebase/firebase";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getFlashcardSet } from "@/actions/flashcard-set-actions";
+import { getAllPublicSets } from "@/actions/flashcard-set-actions";
 import { FlashcardSet } from "@/types/flashcard-set";
+import Link from "next/link";
 
-interface ExploreProps {
-  params: {
-    setId: string;
-  };
-}
-
-const Explore = ({ params }: ExploreProps) => {
+const Explore = () => {
   const {
     data: allSets,
     isError,
     isFetching,
   } = useQuery({
     queryKey: [],
-    queryFn: () => getAllSets(),
+    queryFn: () => getAllPublicSets(),
   });
 
   const [searchResults, setSearchResults] = useState<
@@ -44,15 +25,13 @@ const Explore = ({ params }: ExploreProps) => {
 
   const handleSearchResults = (results: FuseResult<FlashcardSet>[]) => {
     setSearchResults(results);
-    checkSearchResults();
-  };
-
-  const checkSearchResults = () => {
-    console.log(searchResults);
   };
 
   return (
     <main className="mt-16">
+      <h1 className="text-4xl font-bold text-center mb-8">
+        Explore flashcards
+      </h1>
       {/* Searchbar with filter and sort button */}
       <div className="flex flex-row justify-center mb-12 w-full">
         <Search onSearchResults={handleSearchResults} />
@@ -81,27 +60,27 @@ const Explore = ({ params }: ExploreProps) => {
       </div>
 
       {/* Container for cards of flashcard displays */}
-      <div className="flex flex-row flex-wrap justify-center items-center gap-6">
+      <div className="flex flex-row flex-wrap justify-center gap-6 mb-20">
         {/* Display relevant sets if there is a search, all sets if there aren't */}
         {searchResults.length > 0
           ? searchResults &&
             searchResults.map((set) => (
-              <a href={`sets/${set.item.id}`} key={set.item.id}>
+              <Link href={`/sets/${set.item.id}`} key={set.item.id}>
                 <FlashcardDisplay
                   subject={set.item.name}
                   creator={set.item.createdBy}
                 ></FlashcardDisplay>
-              </a>
+              </Link>
             ))
           : allSets &&
             allSets.map((set) => (
-              <a href={`sets/${set.id}`} key={set.id}>
+              <Link href={`/sets/${set.id}/game`} key={set.id}>
                 <FlashcardDisplay
                   key={set.id}
                   subject={set.name}
                   creator={set.createdBy}
                 />
-              </a>
+              </Link>
             ))}
       </div>
     </main>

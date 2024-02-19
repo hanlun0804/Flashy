@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 
 interface FlashcardDisplayProps {
   subject: string;
@@ -10,12 +11,10 @@ export default function FlashcardDisplay({
   creator,
 }: FlashcardDisplayProps) {
   return (
-    <div className="w-96 mx-2 h-52 flex bg-[--clr_secondary] border-solid border-[--clr_text] border-2 rounded-lg items-center">
-      <div className="mx-3 w-full">
-        <p className="text-base">{subject}</p>
-        <Separator className="my-4 bg-[--clr_text]" />
-        <p className="text-xs">Made by: {creator}</p>
-      </div>
-    </div>
+    <Card className="w-96 mx-2 h-52 flex items-start shadow-lg p-8 flex-col">
+      <h2>{subject}</h2>
+      <Separator className="my-4 bg-[--clr_text]" />
+      <span className="text-xs text-gray-300">By {creator}</span>
+    </Card>
   );
 }

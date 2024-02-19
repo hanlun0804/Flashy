@@ -3,25 +3,15 @@
 import { Input } from "@/components/ui/input";
 import Fuse, { FuseResult } from "fuse.js";
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../lib/firebase/firebase";
 import { useQuery } from "@tanstack/react-query";
-import { getFlashcardSet } from "@/actions/flashcard-set-actions";
-import { getAllSets } from "@/actions/sets-actions";
 import { FlashcardSet } from "@/types/flashcard-set";
-import FlashcardSetOptions from "../sets/flashcard-set-options";
-
-interface ExploreProps {
-  params: {
-    setId: string;
-  };
-}
+import { getAllPublicSets } from "@/actions/flashcard-set-actions";
 
 interface SearchProps {
   onSearchResults: (results: FuseResult<FlashcardSet>[]) => void;
 }
 
-const Search: React.FC<SearchProps> = ({ onSearchResults }) => {
+const Search = ({ onSearchResults }: SearchProps) => {
   const [query, setQuery] = useState("");
   const [flashcardContent, setflashcardContent] = useState<FlashcardSet[]>([]);
   const [fuse, setFuse] = useState<Fuse<FlashcardSet>>(
@@ -34,7 +24,7 @@ const Search: React.FC<SearchProps> = ({ onSearchResults }) => {
     isFetching,
   } = useQuery({
     queryKey: [],
-    queryFn: () => getAllSets(),
+    queryFn: () => getAllPublicSets(),
   });
 
   // Sets flashcardContent once when page is
