@@ -1,35 +1,29 @@
-import { AdminTable, Admintable } from "@/components/adminpanel/admintable";
+"use client";
+
+import { getAdmins } from "@/actions/login-actions";
+import { AdminTable } from "@/components/adminpanel/admintable";
 import { columns, UserInfo } from "@/components/adminpanel/columns";
 
-getAdmins
-const Explore = () => {
-  const {
-    data: role,
-  } = useQuery({
-    queryKey: [],
-    queryFn: () => getAdmins(),
-  });
-
-async function getData(): Promise<UserInfo[]> {
-    // Fetch data from your API here.
-    return [
-      {
-        id: "728ed52f",
-        role: "owner",
-        email: "flashmaster@flashy.com",
-      },
-      // ...
-    ]
-  }
+import { useQuery } from "@tanstack/react-query";
+  
 
 
-export default async function adminpanel() {
+const adminpanel = () => {
 
-    const data = await getData()
+    const {
+        data: admins,
+      } = useQuery({
+        queryKey: [],
+        queryFn: () => getAdmins(),
+      });
+
+      if (!admins) {
+        return null;
+      }
 
     return (
       <div className="h-screen flex justify-center items-center">
-        <AdminTable columns={columns} data={data} />
+        <AdminTable columns={columns} data={admins} />
       </div>
 
       // add button that takes you to the admin page
@@ -37,7 +31,7 @@ export default async function adminpanel() {
     );
   }
 
-  
+  export default adminpanel;
 
   
   
