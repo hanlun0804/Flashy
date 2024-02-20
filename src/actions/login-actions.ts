@@ -36,3 +36,16 @@ export const editUser = async (UserId: string, data: Partial<formUser>) => {
     }
   }
 };
+
+export const createUser = async (id: string, email: string, name: string) => {
+  const docRef = doc(db, "users", id);
+  await setDoc(
+    docRef,
+    {
+      name: name,
+      email: email,
+      role: "user",
+    },
+    { merge: true },
+  );
+};
