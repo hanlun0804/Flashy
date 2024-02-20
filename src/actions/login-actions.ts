@@ -5,6 +5,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/firebase";
 import { setDoc } from "firebase/firestore";
 import { updatePassword } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
+
 
 export const getUserById = async (id: string): Promise<User> => {
   const docRef = doc(db, "users", id!);
@@ -36,3 +38,14 @@ export const editUser = async (UserId: string, data: Partial<formUser>) => {
     }
   }
 };
+
+export const getAdmins = async () => {
+
+  const q = query(collection(db, "users"), where("role", "==", "admin"));
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+});
+}

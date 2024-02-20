@@ -1,6 +1,14 @@
 import { AdminTable, Admintable } from "@/components/adminpanel/admintable";
-// import { Column } from "@tanstack/react-table";
 import { columns, UserInfo } from "@/components/adminpanel/columns";
+
+getAdmins
+const Explore = () => {
+  const {
+    data: role,
+  } = useQuery({
+    queryKey: [],
+    queryFn: () => getAdmins(),
+  });
 
 async function getData(): Promise<UserInfo[]> {
     // Fetch data from your API here.
