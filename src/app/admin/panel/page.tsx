@@ -1,37 +1,61 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { getAdmins } from "@/actions/login-actions";
 import { AdminTable } from "@/components/adminpanel/admintable";
+import { Button } from "@/components/ui/button";
 import { columns, UserInfo } from "@/components/adminpanel/columns";
-
 import { useQuery } from "@tanstack/react-query";
-  
-
+import Link from "next/link";
 
 const adminpanel = () => {
+  const { data: admins } = useQuery({
+    queryKey: [],
+    queryFn: () => getAdmins(),
+  });
 
-    const {
-        data: admins,
-      } = useQuery({
-        queryKey: [],
-        queryFn: () => getAdmins(),
-      });
-
-      if (!admins) {
-        return null;
-      }
-
-    return (
-      <div className="h-screen flex justify-center items-center">
-        <AdminTable columns={columns} data={admins} />
-      </div>
-
-      // add button that takes you to the admin page
-
-    );
+  if (!admins) {
+    return null;
   }
 
-  export default adminpanel;
+  const router = useRouter();
 
-  
-  
+    const handleGoAdmin = () => {
+        router.push("/admin");
+    };
+
+  return (
+    <div className="flex flex-col items-start justify-center h-screen px-20">
+        <div>
+            <AdminTable columns={columns} data={admins} />
+        </div>
+
+        <div>
+            <div className="mt-8">
+            <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleGoAdmin}>
+                <Link href="/admin">Get started</Link>
+            </Button>
+            </div>
+        </div>
+    </div>
+
+
+    // add button that takes you to the admin page
+  );
+};
+
+export default adminpanel;
+
+// export default function goAdmin() {
+//     return (
+//       <div className="h-screen flex items-center">
+//         <div className="mt-8">
+//           <Button
+//             className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
+//             onClick={handleGoAdmin}>
+//             <Link href="/admin">Get started</Link>
+//           </Button>
+//         </div>
+//       </div>
+//     );
+//   }
