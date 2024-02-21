@@ -18,7 +18,6 @@ interface FlashCardSetPageProps {
 const FlashcardSetOptions = ({ set, onDelete }: FlashCardSetPageProps) => {
   return (
     <div className="flex flex-row justify-between">
-      {set && <h1>{set.name}</h1>}
       <Dialog>
         <DialogTrigger asChild>
           <Button className="ml-2" variant="destructive">
