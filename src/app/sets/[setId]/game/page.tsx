@@ -46,8 +46,36 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   };
   const currentCard = set.flashcards[currentCardIndex];
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    console.log("Key pressed");
+    switch (event.key) {
+      case "Enter":
+        setShowAnswer(!showAnswer);
+        console.log("Enter pressed");
+        break;
+      case " ":
+        setShowAnswer(!showAnswer);
+        console.log("Space pressed");
+        break;
+      case "ArrowLeft":
+        handlePrevious();
+        console.log("Left pressed");
+        break;
+      case "ArrowRight":
+        handleNext();
+        console.log("Right pressed");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center w-full h-full flex-col pt-20">
+    <div
+      className="flex justify-center items-center w-full h-full flex-col pt-20"
+      onKeyDown={handleKeyPress}
+      tabIndex={0}
+    >
       <h1>Playing: {set.name}</h1>
       <div className="flex justify-center items-center flip-card mt-8">
         <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
