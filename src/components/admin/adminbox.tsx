@@ -1,17 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { FlashcardSet } from "@/types/flashcard-set";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { DialogClose } from "@/components/ui/dialog";
-import { createFlashcard, updateFlashcard } from "@/actions/flashcard-actions";
-import { Toaster } from "@/components/ui/toaster";
-import { useQueryClient } from "@tanstack/react-query";
-import { Flashcard } from "@/types/flashcard";
+
+import { setUserType } from "@/actions/admin-actions";
 
 export const AdminCreator = z.object({
   email: z.string().email().min(1),
@@ -24,7 +19,9 @@ export function AdminSetter() {
       email: "",
     },
   });
-  const onAuthorise = () => {};
+  const onAuthorise = (data: z.infer<typeof AdminCreator>) => {
+    setUserType(data.email);
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -36,20 +33,23 @@ export function AdminSetter() {
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onAuthorise)}
             className="flex flex-col space-y-4"
+            onSubmit={form.handleSubmit(onAuthorise)}
           >
             <FormField
               name={"email"}
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <Input {...field} placeholder={"e-mail.."} />
+                  <Input {...field} placeholder={"johndoe@gmail.com"} />
                 </FormItem>
               )}
             />
 
-            <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12">
+            <Button
+              className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
+              type="submit"
+            >
               Set as Admin
             </Button>
           </form>
