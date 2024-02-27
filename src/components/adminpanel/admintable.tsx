@@ -1,7 +1,6 @@
 "use client"
 
 // import { Button } from "@/components/ui/button";
-// import { useRouter } from "next/navigation";
 import {
   ColumnDef,
   flexRender,
@@ -30,19 +29,6 @@ type Usertype = {
   }
 
 
-export const usertype: Usertype[] = [
-{
-    id: "728ed52f",
-    role: "admin",
-    email: "flashmaster@flashy.com",
-},
-{
-    id: "489e1d42",
-    role: "user",
-    email: "exampleman@gmail.com",
-},
-// ...
-]
 
 
 export function AdminTable<TData, TValue>({

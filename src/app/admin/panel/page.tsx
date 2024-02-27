@@ -25,22 +25,20 @@ const adminpanel = () => {
     };
 
   return (
-    <div className="flex flex-col items-start justify-center h-screen px-20">
+    <div className="flex flex-col items-center justify-center h-screen px-20">
         <div>
             <AdminTable columns={columns} data={admins} />
         </div>
 
         <div>
-            <div className="mt-8">
-            <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleGoAdmin}>
-                <Link href="/admin">Get started</Link>
-            </Button>
+            <div className="mt-8 justify-center">
+              <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleGoAdmin}>
+                  <Link href="/admin">Set new admin</Link>
+              </Button>
             </div>
         </div>
     </div>
 
-
-    // add button that takes you to the admin page
   );
 };
 
