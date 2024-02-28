@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ArrowBigRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowBigLeft } from "lucide-react";
+import { ArrowBigLeft, BookmarkX } from "lucide-react";
 import "./style.css";
 import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
@@ -41,7 +41,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
-        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
+        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length
     );
   };
   const currentCard = set.flashcards[currentCardIndex];
@@ -87,6 +87,9 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               {currentCardIndex + 1}/{set.flashcards.length}
             </div>
             <div>{currentCard.question}</div>
+            <Button className="absolute top-4 right-4 bg-red-900">
+              <BookmarkX /> Mark as difficult
+            </Button>
           </Card>
 
           <Card
