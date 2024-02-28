@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ArrowBigRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ArrowBigLeft, BookmarkX } from "lucide-react";
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
 import { Shuffle } from "lucide-react";
+import { doc } from "firebase/firestore";
 
 interface FlashCardSetPageProps {
   params: {
@@ -19,6 +20,7 @@ interface FlashCardSetPageProps {
 const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [flashcards, setFlashcards] = useState([]);
 
   const {
     data: set,
@@ -42,7 +44,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
-        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length
+        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
     );
   };
   const currentCard = set.flashcards[currentCardIndex];
@@ -90,11 +92,20 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
             className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
             onClick={() => setShowAnswer(!showAnswer)}
           >
-            <div className="absolute top-3 left-3 text-white p-2">
+            <div className="absolute top-3 left-3 text-white p-2" id="counter">
               {currentCardIndex + 1}/{set.flashcards.length}
             </div>
             <div>{currentCard.question}</div>
-            <Button className="absolute top-4 right-4 bg-red-900">
+            <Button
+              className="absolute top-4 right-4 bg-red-900"
+              id="marking"
+              onClick={(event) => {
+                event.stopPropagation();
+                set.flashcards = [...set.flashcards, currentCard];
+                document.getElementById("marking")!.innerHTML =
+                  "<BookmarkX /> Marked as difficult";
+              }}
+            >
               <BookmarkX /> Mark as difficult
             </Button>
           </Card>
