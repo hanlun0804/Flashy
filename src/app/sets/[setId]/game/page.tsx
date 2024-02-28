@@ -8,6 +8,7 @@ import "./style.css";
 import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
+import { Shuffle } from "lucide-react";
 
 interface FlashCardSetPageProps {
   params: {
@@ -45,6 +46,12 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     );
   };
   const currentCard = set.flashcards[currentCardIndex];
+
+  const handleShuffle = () => {
+    setShowAnswer(false);
+    set.flashcards.sort(() => Math.random() - 0.5);
+    setCurrentCardIndex(0);
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     console.log("Key pressed");
@@ -109,6 +116,11 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
         </Button>
         <Button className="flex justify-center p-10" onClick={handleNext}>
           <ChevronRight size={30} />
+        </Button>
+      </div>
+      <div>
+        <Button className="m-5 py-4" onClick={handleShuffle}>
+          <Shuffle className="mr-4" size={20} /> Shuffle
         </Button>
       </div>
     </div>
