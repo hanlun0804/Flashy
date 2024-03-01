@@ -28,20 +28,26 @@ const formSchema = z.object({
 
 
 export const AdminCreator = z.object({
-    email: z.string().email().min(1),
+  email: z.string().email().min(1),
+});
+
+
+
+
+
+
+
+export function AdminSetter() {
+  const form = useForm<z.infer<typeof AdminCreator>>({
+    resolver: zodResolver(AdminCreator),
+    defaultValues: {
+      email: "",
+    },
   });
   
-  export function AdminSetter() {
-    const form = useForm<z.infer<typeof AdminCreator>>({
-      resolver: zodResolver(AdminCreator),
-      defaultValues: {
-        email: "",
-      },
-    });
-    
-    const onAuthorise = () => {};
+  const onAuthorise = () => {};
 
-  }
+}
 
 export default function NewAdmin(user: User) {
   const router = useRouter();

@@ -20,9 +20,9 @@ const adminpanel = () => {
 
   const router = useRouter();
 
-    const handleGoAdmin = () => {
-        router.push("/admin");
-    };
+  const handleSetAdmin = () => {
+      router.push("/admin");
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen px-20">
@@ -32,8 +32,8 @@ const adminpanel = () => {
 
         <div>
             <div className="mt-8 justify-center">
-              <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleGoAdmin}>
-                  <Link href="/admin">Set new admin</Link>
+              <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleSetAdmin}>
+                  Set new admin
               </Button>
             </div>
         </div>

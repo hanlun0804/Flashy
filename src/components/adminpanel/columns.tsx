@@ -23,8 +23,13 @@ export const columns: ColumnDef<UserInfo>[] = [
   {
     id: "delete",
     cell: ({row}) => {
+
+      const handleDeleteAdmin = () => {
+        
+      };
+
         return (
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={handleDeleteAdmin}>
                 <XCircle className="h-4 w-4" />
             </Button>
         )
