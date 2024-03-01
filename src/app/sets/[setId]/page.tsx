@@ -8,11 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 import {
   deleteFlashcardSet,
   getFlashcardSet,
+  updateVisibility,
 } from "@/actions/flashcard-set-actions";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import FlashcardSetOptions from "@/components/sets/flashcard-set-options";
 import CreateFlashcardDialog from "@/components/sets/create-flashcard-dialog";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useState } from "react";
 
 interface FlashCardSetPageProps {
   params: {
@@ -32,6 +35,8 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
     queryFn: () => getFlashcardSet(params.setId),
   });
 
+  const [isPublic, setIsPublic] = useState(true);
+
   const onDelete = () => {
     deleteFlashcardSet(params.setId).then(() => {
       toast({
@@ -42,18 +47,55 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
     });
   };
 
+  // const onPrivate = () => {
+  //   setAsPrivate(params.setId).then(() => ) {
+
+  //   }
+  // }
+
   return (
     <div className="flex justify-center h-screen p-64">
       <div className="flex flex-row items-start space-x-12 w-full">
         <section className="flex flex-col space-y-4 w-full">
-          {set && <FlashcardSetOptions set={set} onDelete={onDelete} />}
+          {set && <h1>{set.name}</h1>}
+
           <Separator />
           <a href={`${params.setId}/game`}>
             <Button className="w-full py-8 shadow-xl" variant="positive">
               PLAY NOW
-              <Play className="ml-2" size={16} />
+              <Play className="ml-2" size={16} fill="#e8f0ff" />
             </Button>
           </a>
+          <div className="flex justify-between">
+            <ToggleGroup type="single">
+              <ToggleGroupItem
+                onFocus={() => {
+                  setIsPublic(true);
+                  updateVisibility(params.setId, "publicSet", true).catch(
+                    console.error,
+                  );
+                }}
+                value="public"
+                className={`${isPublic ? "bg-[--clr_primary]" : "bg-[#17263a]"}`}
+              >
+                Public
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                onFocus={() => {
+                  setIsPublic(false);
+                  updateVisibility(params.setId, "publicSet", false).catch(
+                    console.error,
+                  );
+                }}
+                value="private"
+                className={`${isPublic ? "bg-[#17263a]" : "bg-[--clr_primary]"}`}
+              >
+                Private
+              </ToggleGroupItem>
+            </ToggleGroup>
+
+            {set && <FlashcardSetOptions set={set} onDelete={onDelete} />}
+          </div>
         </section>
 
         <section className="flex flex-col space-y-4 pb-12 w-full">

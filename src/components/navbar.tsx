@@ -1,5 +1,6 @@
 "use client";
 
+import { signOut } from "firebase/auth";
 import { ChevronRight, LogOut, UserRound } from "lucide-react";
 import Image from "next/image";
 import {
@@ -12,8 +13,17 @@ import {
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/firebase/firebase";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
+  const router = useRouter();
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      router.push("/home");
+    });
+  };
+
   return (
     <div className="bg-[#203354]">
       <nav className="flex justify-between items-center w-[98%] mx-auto">
@@ -74,15 +84,14 @@ const NavBar = () => {
                     </Button>
                   </Link>
                   <Separator className="my-2" />
-                  <Link href="/logout" className="text-sm font-semibold">
-                    <Button
-                      variant="link"
-                      className="px-1 justify-between w-full"
-                    >
-                      Log out
-                      <LogOut className="ml-2" size={14} />
-                    </Button>
-                  </Link>
+                  <Button
+                    variant="link"
+                    className="text-sm font-semibold px-1 justify-between w-full"
+                    onClick={handleLogout}
+                  >
+                    Log out
+                    <LogOut className="ml-2" size={14} />
+                  </Button>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -94,3 +103,6 @@ const NavBar = () => {
 };
 
 export default NavBar;
+function setError(message: any) {
+  throw new Error("Function not implemented.");
+}

@@ -12,6 +12,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "@firebase/auth";
+import { createUser } from "@/actions/login-actions";
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -48,6 +49,15 @@ export const login = async (data: { email: string; password: string }) => {
  * Signs up a user with email and password
  * @param data email and password
  */
-export const signup = async (data: { email: string; password: string }) => {
-  await createUserWithEmailAndPassword(auth, data.email, data.password);
+export const signup = async (data: {
+  email: string;
+  password: string;
+  name: string;
+}) => {
+  const userSession = await createUserWithEmailAndPassword(
+    auth,
+    data.email,
+    data.password,
+  );
+  await createUser(userSession.user.uid, data.email, data.name);
 };
