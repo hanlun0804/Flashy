@@ -52,23 +52,3 @@ export const createUser = async (id: string, email: string, name: string) => {
     { merge: true },
   );
 };
-
-export const getAdmins = async () => {
-
-  const q = query(collection(db, "users"), where("role", "==", "admin"));
-
-  const querySnapshot = await getDocs(q);
-
-  const admins:UserInfo[] = []
-
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    admins.push({
-      email: doc.data().email,
-      id: doc.id,
-      role: doc.data().role
-     })
-});
-
-return admins;
-}

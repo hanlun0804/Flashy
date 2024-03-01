@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { getAdmins } from "@/actions/login-actions";
+import { getAdmins } from "@/actions/admin-actions";
 import { AdminTable } from "@/components/adminpanel/admintable";
-import { Button } from "@/components/ui/button";
-import { columns, UserInfo } from "@/components/adminpanel/columns";
+import { columns } from "@/components/adminpanel/columns";
 import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
+import { setUserType } from "@/actions/admin-actions";
+import CreateAdminDialog from "@/components/adminpanel/new-admin-dialog";
 
 const adminpanel = () => {
   const { data: admins } = useQuery({
-    queryKey: [],
+    queryKey: ["admins"],
     queryFn: () => getAdmins(),
   });
 
@@ -20,40 +20,19 @@ const adminpanel = () => {
 
   const router = useRouter();
 
-  const handleSetAdmin = () => {
-      router.push("/admin");
-  };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen px-20">
-        <div>
-            <AdminTable columns={columns} data={admins} />
-        </div>
+      <div>
+        <AdminTable columns={columns} data={admins} />
+      </div>
 
-        <div>
-            <div className="mt-8 justify-center">
-              <Button className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12" onClick={handleSetAdmin}>
-                  Set new admin
-              </Button>
-            </div>
+      <div>
+        <div className="mt-8 justify-center">
+          <CreateAdminDialog />
         </div>
+      </div>
     </div>
-
   );
 };
 
 export default adminpanel;
-
-// export default function goAdmin() {
-//     return (
-//       <div className="h-screen flex items-center">
-//         <div className="mt-8">
-//           <Button
-//             className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
-//             onClick={handleGoAdmin}>
-//             <Link href="/admin">Get started</Link>
-//           </Button>
-//         </div>
-//       </div>
-//     );
-//   }

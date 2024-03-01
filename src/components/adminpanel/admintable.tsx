@@ -1,14 +1,11 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -16,20 +13,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
+} from "@/components/ui/table";
 
 interface AdminTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
-
-type Usertype = {
-    id: string
-    role: "owner" | "admin" | "user"
-    email: string
-  }
-
 
 export function AdminTable<TData, TValue>({
   columns,
@@ -39,7 +28,7 @@ export function AdminTable<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  })
+  });
 
   return (
     <div className="rounded-md border">
@@ -57,7 +46,7 @@ export function AdminTable<TData, TValue>({
                           header.getContext()
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -86,5 +75,5 @@ export function AdminTable<TData, TValue>({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

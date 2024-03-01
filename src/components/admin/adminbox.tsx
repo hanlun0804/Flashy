@@ -7,20 +7,28 @@ import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { setUserType } from "@/actions/admin-actions";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const AdminCreator = z.object({
   email: z.string().email().min(1),
 });
 
-export function AdminSetter() {
+const AdminSetter = () => {
   const form = useForm<z.infer<typeof AdminCreator>>({
     resolver: zodResolver(AdminCreator),
     defaultValues: {
       email: "",
     },
   });
-  const onAuthorise = (data: z.infer<typeof AdminCreator>) => {
-    setUserType(data.email);
+
+  const queryClient = useQueryClient();
+
+  const onAuthorise = async (data: z.infer<typeof AdminCreator>) => {
+    await setUserType(data.email, "admin");
+    queryClient.invalidateQueries({
+      queryKey: ["admins"],
+    });
   };
 
   return (
@@ -46,15 +54,22 @@ export function AdminSetter() {
               )}
             />
 
-            <Button
-              className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
-              type="submit"
-            >
-              Set as Admin
-            </Button>
+            <DialogClose asChild>
+              <Button
+                className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
+                type="submit"
+              >
+                Set as Admin
+              </Button>
+            </DialogClose>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
           </form>
         </Form>
       </div>
     </div>
   );
-}
+};
+
+export default AdminSetter;

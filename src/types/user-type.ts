@@ -5,3 +5,5 @@ export interface User {
   sets: string[];
   favourites: string[];
 }
+
+export type Role = "admin" | "user"
