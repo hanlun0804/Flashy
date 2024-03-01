@@ -86,7 +86,7 @@ const NavBar = () => {
                   <Separator className="my-2" />
                   <Button
                     variant="link"
-                    className="text-sm font-semibold"
+                    className="text-sm font-semibold px-1 justify-between w-full"
                     onClick={handleLogout}
                   >
                     Log out
