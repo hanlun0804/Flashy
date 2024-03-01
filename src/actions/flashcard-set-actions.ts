@@ -2,6 +2,8 @@
 
 import {
   addDoc,
+  arrayRemove,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -140,4 +142,28 @@ export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
   });
 
   return await Promise.all(res);
+};
+
+/**
+ * Adds a flashcard set to the user's favourites
+ * @param userId the id of the user
+ * @param setId the id of the flashcard set
+ */
+export const addFavourite = async (userId: string, setId: string) => {
+  const docRef = doc(db, "users", userId);
+  await updateDoc(docRef, {
+    favourites: arrayUnion(setId),
+  });
+};
+
+/**
+ * Removes a flashcard set from the user's favourites
+ * @param userId the id of the user
+ * @param setId the id of the flashcard set
+ */
+export const removeFavourite = async (userId: string, setId: string) => {
+  const docRef = doc(db, "users", userId);
+  await updateDoc(docRef, {
+    favourites: arrayRemove(setId),
+  });
 };

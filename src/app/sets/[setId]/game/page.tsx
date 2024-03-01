@@ -1,13 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowBigRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ArrowBigLeft } from "lucide-react";
 import "./style.css";
-import { useQuery } from "@tanstack/react-query";
-import { getFlashcardSet } from "@/actions/flashcard-set-actions";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addFavourite,
+  getFlashcardSet,
+  removeFavourite,
+} from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
+import useUserSession from "@/hooks/use-user-session";
+import { getUserById } from "@/actions/login-actions";
 
 interface FlashCardSetPageProps {
   params: {
@@ -18,12 +23,16 @@ interface FlashCardSetPageProps {
 const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const userSession = useUserSession();
+  const queryClient = useQueryClient();
 
-  const {
-    data: set,
-    isError,
-    isFetching,
-  } = useQuery({
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUserById(userSession?.uid),
+    enabled: !!userSession,
+  });
+
+  const { data: set } = useQuery({
     queryKey: ["set", params.setId],
     queryFn: () => getFlashcardSet(params.setId),
   });
@@ -47,27 +56,34 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   const currentCard = set.flashcards[currentCardIndex];
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    console.log("Key pressed");
     switch (event.key) {
       case "Enter":
         setShowAnswer(!showAnswer);
-        console.log("Enter pressed");
         break;
       case " ":
         setShowAnswer(!showAnswer);
-        console.log("Space pressed");
         break;
       case "ArrowLeft":
         handlePrevious();
-        console.log("Left pressed");
         break;
       case "ArrowRight":
         handleNext();
-        console.log("Right pressed");
-        break;
-      default:
         break;
     }
+  };
+
+  const handleFavourite = () => {
+    if (!user) {
+      return;
+    }
+    if (user?.favourites?.includes(set.id)) {
+      removeFavourite(user.id, set.id);
+    } else {
+      addFavourite(user.id, set.id);
+    }
+    queryClient.invalidateQueries({
+      queryKey: ["user"],
+    });
   };
 
   return (
@@ -76,7 +92,18 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
       onKeyDown={handleKeyPress}
       tabIndex={0}
     >
-      <h1>Playing: {set.name}</h1>
+      <div className="flex flex-row space-x-2 items-center">
+        <h1>Playing: {set.name}</h1>
+        {user?.id && (
+          <Button variant="ghost" onClick={handleFavourite}>
+            <Star
+              size={30}
+              fill="#e8f0ff"
+              fillOpacity={user?.favourites?.includes(set.id) ? 1 : 0}
+            />
+          </Button>
+        )}
+      </div>
       <div className="flex justify-center items-center flip-card mt-8">
         <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
           <Card
