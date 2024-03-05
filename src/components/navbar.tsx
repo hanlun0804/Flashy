@@ -15,21 +15,26 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
+import useUserSession from "@/hooks/use-user-session";
 
 const NavBar = () => {
   const router = useRouter();
+  const userSession = useUserSession();
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       router.push("/home");
     });
   };
 
+  const logoLink = userSession ? "/profile" : "/home";
+
   return (
     <div className="bg-[#203354]">
       <nav className="flex justify-between items-center w-[98%] mx-auto">
         <div className="flex items-center gap-6">
           <div>
-            <Link href="/home">
+            <Link href={logoLink}>
               <Image
                 width={24}
                 height={24}
@@ -41,13 +46,15 @@ const NavBar = () => {
           </div>
           <div className="nav-links duration-500 md:static absolute bg-[#203354] md:min-h-fit min-h-[80hvh] left-0 top-[-100%] md:w-auto w-full flex items-center px-5 py-4 md:px-5 md:py-4">
             <ul className="flex md:flex-row flex-col md:items-center md:gap-2">
-              <li>
-                <Link href="/profile">
-                  <Button variant="link" className="text-md">
-                    My flashcard sets
-                  </Button>
-                </Link>
-              </li>
+              {userSession && (
+                <li>
+                  <Link href="/profile">
+                    <Button variant="link" className="text-md">
+                      My flashcard sets
+                    </Button>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link href="/explore">
                   <Button variant="link" className="text-md">
@@ -60,42 +67,44 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link
-            href="/sign-in-or-register"
-            className="bg-[#274060] text-white px-4 py-2 rounded-full hover:bg-[#3e5777] duration-300"
-          >
-            Log in / Sign up
-          </Link>
-
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>
-                  <UserRound />
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="shadow-lg p-4">
-                  <Link href="/profile" className="text-sm font-semibold">
+          {userSession ? (
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>
+                    <UserRound />
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="shadow-lg p-4">
+                    <Link href="/profile" className="text-sm font-semibold">
+                      <Button
+                        variant="link"
+                        className="px-1 justify-between w-full"
+                      >
+                        Profile
+                        <ChevronRight className="ml-2" size={14} />
+                      </Button>
+                    </Link>
+                    <Separator className="my-2" />
                     <Button
                       variant="link"
-                      className="px-1 justify-between w-full"
+                      className="text-sm font-semibold"
+                      onClick={handleLogout}
                     >
-                      Profile
-                      <ChevronRight className="ml-2" size={14} />
+                      Log out
+                      <LogOut className="ml-2" size={14} />
                     </Button>
-                  </Link>
-                  <Separator className="my-2" />
-                  <Button
-                    variant="link"
-                    className="text-sm font-semibold"
-                    onClick={handleLogout}
-                  >
-                    Log out
-                    <LogOut className="ml-2" size={14} />
-                  </Button>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          ) : (
+            <Link
+              href="/sign-in-or-register"
+              className="bg-[#274060] text-white px-4 py-2 rounded-full hover:bg-[#3e5777] duration-300"
+            >
+              Log in / Sign up
+            </Link>
+          )}
         </div>
       </nav>
     </div>

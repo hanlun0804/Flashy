@@ -63,7 +63,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
           <a href={`${params.setId}/game`}>
             <Button className="w-full py-8 shadow-xl" variant="positive">
               PLAY NOW
-              <Play className="ml-2" size={16} />
+              <Play className="ml-2" size={16} fill="#e8f0ff" />
             </Button>
           </a>
           <div className="flex justify-between">

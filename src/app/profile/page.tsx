@@ -119,7 +119,7 @@ export default function Profile() {
                       <Link href={`/sets/${set.id}/game`}>
                         <Button variant="positive">
                           PLAY NOW
-                          <Play className="ml-2" size={16} />
+                          <Play className="ml-2" size={16} fill="#e8f0ff" />
                         </Button>
                       </Link>
                     </CardFooter>
