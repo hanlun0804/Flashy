@@ -4,7 +4,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import "./style.css";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addFavourite,
   getFlashcardSet,
@@ -15,6 +15,8 @@ import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 import { Shuffle } from "lucide-react";
 import { doc } from "firebase/firestore";
+import { BookmarkX } from "lucide-react";
+import { Flashcard } from "@/types/flashcard";
 
 interface FlashCardSetPageProps {
   params: {
@@ -25,7 +27,6 @@ interface FlashCardSetPageProps {
 const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
-  const [flashcards, setFlashcards] = useState([]);
   const userSession = useUserSession();
   const queryClient = useQueryClient();
 
@@ -53,10 +54,9 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
-        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
+        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length
     );
   };
-  const currentCard = set.flashcards[currentCardIndex];
 
   const handleShuffle = () => {
     setShowAnswer(false);
@@ -95,6 +95,31 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     });
   };
 
+  const handleDifficulty = (
+    event: React.MouseEvent<HTMLElement>,
+    card: Flashcard
+  ) => {
+    event.stopPropagation();
+    queryClient.setQueryData(["set", params.setId], (oldData: any) => {
+      const newFlashcards = oldData.flashcards.map((flashcard: Flashcard) => {
+        if (flashcard.id === card.id) {
+          return {
+            ...flashcard,
+            isDifficult: true,
+          };
+        }
+        return flashcard;
+      });
+
+      return {
+        ...oldData,
+        flashcards: [...newFlashcards, card],
+      };
+    });
+  };
+
+  const currentCard = set.flashcards[currentCardIndex];
+
   return (
     <div
       className="flex justify-center items-center w-full h-full flex-col pt-20"
@@ -123,18 +148,18 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               {currentCardIndex + 1}/{set.flashcards.length}
             </div>
             <div>{currentCard.question}</div>
-            <Button
-              className="absolute top-4 right-4 bg-red-900"
-              id="marking"
-              onClick={(event) => {
-                event.stopPropagation();
-                set.flashcards = [...set.flashcards, currentCard];
-                document.getElementById("marking")!.innerHTML =
-                  "<BookmarkX /> Marked as difficult";
-              }}
-            >
-              <BookmarkX /> Mark as difficult
-            </Button>
+            {currentCard.isDifficult ? (
+              <Button className="absolute top-4 right-4 bg-red-900" disabled>
+                <BookmarkX  className="mr-2"/> Difficult
+              </Button>
+            ) : (
+              <Button
+                className="absolute top-4 right-4 bg-red-900"
+                onClick={(event) => handleDifficulty(event, currentCard)}
+              >
+                <BookmarkX className="mr-2" /> Mark as difficult
+              </Button>
+            )}
           </Card>
 
           <Card
