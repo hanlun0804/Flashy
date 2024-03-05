@@ -5,16 +5,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { useToast } from "../ui/use-toast";
 import { setUserType } from "@/actions/admin-actions";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useQueryClient } from "@tanstack/react-query";
+import Datetime from "react-datetime";
 
 export const AdminCreator = z.object({
   email: z.string().email().min(1),
 });
 
 const AdminSetter = () => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof AdminCreator>>({
     resolver: zodResolver(AdminCreator),
     defaultValues: {
@@ -25,17 +27,30 @@ const AdminSetter = () => {
   const queryClient = useQueryClient();
 
   const onAuthorise = async (data: z.infer<typeof AdminCreator>) => {
+    const currentDate = new Date();
+    const milliseconds = currentDate.getMilliseconds();
+    console.log(milliseconds);
+
     await setUserType(data.email, "admin");
-    queryClient.invalidateQueries({
+
+    const currentDate2 = new Date();
+    const milliseconds2 = currentDate2.getMilliseconds();
+    console.log(milliseconds2);
+
+    toast({
+      title: "User has been set as Admin",
+    });
+
+    await queryClient.invalidateQueries({
       queryKey: ["admins"],
     });
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h2 className="text-3xl flex flex-col mb-8 text-black">Make Admin</h2>
-        <h3 className="flex flex-col text-black mb-2">
+    <div>
+      <div>
+        <h2 className="text-3xl flex flex-col mb-8">Set new Admin</h2>
+        <h3 className="flex flex-col mb-2">
           Type in user-email to set as Admin:
         </h3>
 

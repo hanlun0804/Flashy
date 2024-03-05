@@ -35,13 +35,8 @@ export default function CreateAdminDialog() {
           Set new admin
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed z-[288] h-full w-full">
-        <DialogHeader>
-          <DialogTitle>Set new admin user</DialogTitle>
-          <DialogDescription>
-            <AdminSetter></AdminSetter>
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="fixed z-[250] h-auto w-auto">
+        <AdminSetter></AdminSetter>
       </DialogContent>
     </Dialog>
   );

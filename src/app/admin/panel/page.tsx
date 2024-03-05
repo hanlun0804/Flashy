@@ -7,6 +7,7 @@ import { columns } from "@/components/adminpanel/columns";
 import { useQuery } from "@tanstack/react-query";
 import { setUserType } from "@/actions/admin-actions";
 import CreateAdminDialog from "@/components/adminpanel/new-admin-dialog";
+import { Toaster } from "@/components/ui/toaster";
 
 const adminpanel = () => {
   const { data: admins } = useQuery({
@@ -14,24 +15,27 @@ const adminpanel = () => {
     queryFn: () => getAdmins(),
   });
 
+  console.log(admins);
+
   if (!admins) {
     return null;
   }
 
-  const router = useRouter();
-
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-20">
-      <div>
-        <AdminTable columns={columns} data={admins} />
-      </div>
+    <>
+      <div className="flex flex-col items-center justify-center h-screen px-20">
+        <div>
+          <AdminTable columns={columns} data={admins} />
+        </div>
 
-      <div>
-        <div className="mt-8 justify-center">
-          <CreateAdminDialog />
+        <div>
+          <div className="mt-8 justify-center">
+            <CreateAdminDialog />
+          </div>
         </div>
       </div>
-    </div>
+      <Toaster />
+    </>
   );
 };
 

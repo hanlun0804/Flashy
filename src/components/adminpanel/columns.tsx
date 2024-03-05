@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { setUserType } from "@/actions/admin-actions";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "../ui/use-toast";
 
 export type UserInfo = {
   id: string;
@@ -25,11 +26,16 @@ export const columns: ColumnDef<UserInfo>[] = [
     id: "delete",
     cell: ({ row }) => {
       const queryClient = useQueryClient();
+      const { toast } = useToast();
 
       const handleDeleteAdmin = async () => {
         await setUserType(row.getValue("email"), "user");
         queryClient.invalidateQueries({
           queryKey: ["admins"],
+        });
+        toast({
+          title: "Admin has been removed",
+          description: "",
         });
       };
 
