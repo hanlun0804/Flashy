@@ -4,8 +4,15 @@
 
 @layer base {
   :root {
-    --background: 218, 24%, 9%;
-    --foreground: 219, 100%, 95%;
+    --clr_bg: #e8f0ff;
+    --clr_primary: #476286;
+    --clr_secondary: #646f85;
+    --clr_text: #151e2e;
+
+    --placeholder: 210 40% 96.1%;
+
+    --background: var(--clr_bg);
+    --foreground: var(--clr_text);
 
     --card: 219, 24%, 23%;
     --card-foreground: 219, 100%, 95%;
@@ -38,17 +45,16 @@
   }
 
   .dark {
+    --clr_bg: #11151c;
+    --clr_primary: #274060;
+    --clr_secondary: #485265;
+    --clr_text: #e8f0ff;
+
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -101,14 +107,7 @@ input::file-selector-button {
   }
   body {
     @apply bg-background text-foreground;
-    background-color: var(--clr_bg);
-    color: var(--clr_text);
+    /* background-color: var(--clr_bg);
+    color: var(--clr_text); */
   }
-}
-
-:root {
-  --clr_bg: #11151c;
-  --clr_primary: #274060;
-  --clr_secondary: #485265;
-  --clr_text: #e8f0ff;
 }

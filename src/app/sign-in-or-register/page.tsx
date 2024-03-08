@@ -12,7 +12,7 @@ import RegisterForm from "@/components/sign-in-register/register-form";
 export default function LogIn() {
   return (
     <div className="h-screen flex justify-center items-center">
-      <Tabs defaultValue="account" className="w-[400px]">
+      <Tabs defaultValue="account" className="w-[400px">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Sign in</TabsTrigger>
           <TabsTrigger value="Signup">Create account</TabsTrigger>

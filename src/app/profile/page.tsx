@@ -43,7 +43,7 @@ export default function Profile() {
       >
         <Avatar className="w-36 h-36 mt-6">
           <AvatarImage src="" />
-          <AvatarFallback className="text-2xl">
+          <AvatarFallback className="text-2xl text-white">
             {user
               ? user!.name.split(" ").length > 1
                 ? user!.name[0] + user!.name.split(" ")[1][0]
