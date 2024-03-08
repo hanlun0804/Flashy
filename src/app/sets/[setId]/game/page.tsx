@@ -150,49 +150,52 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
               onClick={() => setShowAnswer(!showAnswer)}
             >
-              <div className="absolute top-3 left-2 text-white p-2" id="counter">
+              <div
+                className="absolute top-3 left-2 text-white p-2"
+                id="counter"
+              >
                 {currentCardIndex + 1}/{set.flashcards.length}
               </div>
               <div>{currentCard.question}</div>
-            {currentCard.isDifficult ? (
-              <Button className="absolute top-4 right-4 bg-red-900" disabled>
-                <BookmarkX className="mr-2" /> Difficult
-              </Button>
-            ) : (
-              <Button
-                className="absolute top-4 right-4 bg-red-900"
-                onClick={(event) => handleDifficulty(event, currentCard)}
-              >
-                <BookmarkX className="mr-2" /> Mark as difficult
-              </Button>
-            )}
+              {currentCard.isDifficult ? (
+                <Button className="absolute top-4 right-4 bg-red-900" disabled>
+                  <BookmarkX className="mr-2" /> Difficult
+                </Button>
+              ) : (
+                <Button
+                  className="absolute top-4 right-4 bg-red-900"
+                  onClick={(event) => handleDifficulty(event, currentCard)}
+                >
+                  <BookmarkX className="mr-2" /> Mark as difficult
+                </Button>
+              )}
             </Card>
 
-          <Card
-            className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
-            onClick={() => setShowAnswer(!showAnswer)}
-          >
-            <div className="absolute top-3 left-3 text-white p-2">
-              {currentCardIndex + 1}/{set.flashcards.length}
-            </div>
-            <div>{currentCard.answer}</div>
-          </Card>
+            <Card
+              className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              onClick={() => setShowAnswer(!showAnswer)}
+            >
+              <div className="absolute top-3 left-3 text-white p-2">
+                {currentCardIndex + 1}/{set.flashcards.length}
+              </div>
+              <div>{currentCard.answer}</div>
+            </Card>
+          </div>
+        </div>
+        <div className="flex flex-wrap justify-center mt-6 space-x-6">
+          <Button className="flex justify-center p-10" onClick={handlePrevious}>
+            <ChevronLeft size={30} />
+          </Button>
+          <Button className="flex justify-center p-10" onClick={handleNext}>
+            <ChevronRight size={30} />
+          </Button>
+        </div>
+        <div className="flex justify-center">
+          <Button className="m-5 py-4" onClick={handleShuffle}>
+            <Shuffle className="mr-4" size={20} /> Shuffle
+          </Button>
         </div>
       </div>
-      <div className="flex flex-wrap justify-center mt-6 space-x-6">
-        <Button className="flex justify-center p-10" onClick={handlePrevious}>
-          <ChevronLeft size={30} />
-        </Button>
-        <Button className="flex justify-center p-10" onClick={handleNext}>
-          <ChevronRight size={30} />
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <Button className="m-5 py-4" onClick={handleShuffle}>
-          <Shuffle className="mr-4" size={20} /> Shuffle
-        </Button>
-      </div>
-    </div>
     </div>
   );
 };
