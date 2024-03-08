@@ -27,12 +27,20 @@ const Search = ({ onSearchResults }: SearchProps) => {
     queryFn: () => getAllPublicSets(),
   });
 
+  // const sortedData = allSets?.sort((a,b) => a.likedBy - b.likedBy);
+
   // Sets flashcardContent once when page is
   useEffect(() => {
     const setArray: FlashcardSet[] = [];
     allSets?.map((set) => setArray.push(set));
     setflashcardContent(setArray);
   }, [allSets]);
+
+  // useEffect(() => {
+  //   const setArray: FlashcardSet[] = [];
+  //   sortedData?.map((set) => setArray.push(set));
+  //   setflashcardContent(setArray);
+  // }, [sortedData]);
 
   // Function is called when searchfield changes
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

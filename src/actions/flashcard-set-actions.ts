@@ -16,6 +16,7 @@ import {
 import { FlashcardSet } from "@/types/flashcard-set";
 import { db, deleteQueryBatch } from "@/lib/firebase/firebase";
 import { getFlashcards } from "@/actions/flashcard-actions";
+import { getUserById } from "./login-actions";
 
 /**
  * Gets a flashcard set by its id
@@ -64,6 +65,42 @@ export const getFlashcardSets = async (
       flashcards: [],
     });
   });
+  return sets;
+};
+
+/**
+ * Gets all flashcard sets saved by a user
+ * @param userId the id of the user
+ * @returns a promise that resolves to an array of flashcard sets
+ */
+export const getSavedFlashcardSets = async (
+  userId: string,
+): Promise<FlashcardSet[]> => {
+  const user = await getUserById(userId);
+
+  if (user.favourites === undefined) {
+    return [];
+  }
+
+  const sets: FlashcardSet[] = [];
+  for (let i = 0; i < user.favourites.length; i++) {
+    const q = query(
+      collection(db, "sets"),
+      where("Id", "==", user.favourites[i]),
+    );
+
+    const docRef = doc(db, "sets", user.favourites[i]);
+    const snapshot = await getDoc(docRef);
+
+    if (!snapshot.exists()) {
+      throw new Error("No such document!");
+    }
+
+    sets.push({
+      id: snapshot.id,
+      ...snapshot.data(),
+    } as FlashcardSet);
+  }
   return sets;
 };
 

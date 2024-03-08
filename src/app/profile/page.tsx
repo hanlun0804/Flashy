@@ -1,11 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Settings } from "@/components/profile/settings-drawer";
-import { Pencil, Play, Plus, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import NewSet from "@/components/profile/new-set-dialog";
@@ -13,10 +12,12 @@ import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSets } from "@/actions/flashcard-set-actions";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import FlashcardPreview from "@/components/profile/flashcard-preview-card";
 
 export default function Profile() {
   const userSession = useUserSession();
+  const router = useRouter();
 
   const { data: user } = useQuery({
     queryKey: ["user", "user_id"],
@@ -68,7 +69,12 @@ export default function Profile() {
 
         {/* Favourites and settings button container */}
         <div id="buttons" className="mt-6">
-          <Button className="ml-auto mr-2 w-32">
+          <Button
+            className="ml-auto mr-2 w-32"
+            onClick={() => {
+              router.push("profile/favourites");
+            }}
+          >
             <Star className="mr-2" size={16} />
             Favourites
           </Button>
@@ -80,7 +86,6 @@ export default function Profile() {
 
       {/* List of user's flashcards, inlucing new flashcards button */}
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
-        {/* Flashcard section title and 'new' button */}
         <section id="title" className="flex pb-4">
           <h3 className="text-xl mt-4">Your Flashcards</h3>
           <NewSet {...user!} />
@@ -88,7 +93,6 @@ export default function Profile() {
 
         <Separator className="w-full h-px mb-4" />
 
-        {/* List of user's flashcards */}
         <ul>
           <Suspense
             fallback={
@@ -101,30 +105,7 @@ export default function Profile() {
           >
             {sets &&
               sets.map((set, index) => {
-                return (
-                  <Card key={index} className="mb-4 cursor-pointer">
-                    {/* Flashcard set's title */}
-                    <CardHeader>
-                      <CardTitle>{set.name}</CardTitle>
-                    </CardHeader>
-
-                    {/* Edit and start flashcards buttons */}
-                    <CardFooter className="p-5">
-                      <Link className="ml-auto mr-4" href={`/sets/${set.id}`}>
-                        <Button className="px-6">
-                          <Pencil className="mr-2" size={16} />
-                          Edit
-                        </Button>
-                      </Link>
-                      <Link href={`/sets/${set.id}/game`}>
-                        <Button variant="positive">
-                          PLAY NOW
-                          <Play className="ml-2" size={16} fill="#e8f0ff" />
-                        </Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                );
+                return <FlashcardPreview set={set} key={index} edit={true} />;
               })}
           </Suspense>
         </ul>
