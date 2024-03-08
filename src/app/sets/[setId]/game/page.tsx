@@ -11,6 +11,7 @@ import {
   removeFavourite,
 } from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 
@@ -104,36 +105,43 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
           </Button>
         )}
       </div>
-      <div className="flex justify-center items-center flip-card mt-8">
-        <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
-          <Card
-            className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
-            onClick={() => setShowAnswer(!showAnswer)}
-          >
-            <div className="absolute top-3 left-3 text-white p-2">
-              {currentCardIndex + 1}/{set.flashcards.length}
-            </div>
-            <div>{currentCard.question}</div>
-          </Card>
+      <div>
+        <Progress
+          className="mt-6"
+          value={((currentCardIndex + 1) / set.flashcards.length) * 100}
+        />
+        <div className="flex justify-center items-center flip-card mt-2">
+          <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
+            <Card
+              className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              onClick={() => setShowAnswer(!showAnswer)}
+            >
+              <div className="absolute top-3 left-2 text-white p-2">
+                {currentCardIndex + 1}/{set.flashcards.length}
+              </div>
+              <div>{currentCard.question}</div>
+            </Card>
 
-          <Card
-            className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
-            onClick={() => setShowAnswer(!showAnswer)}
-          >
-            <div className="absolute top-3 left-3 text-white p-2">
-              {currentCardIndex + 1}/{set.flashcards.length}
-            </div>
-            <div>{currentCard.answer}</div>
-          </Card>
+            <Card
+              className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              onClick={() => setShowAnswer(!showAnswer)}
+            >
+              <div className="absolute top-3 left-2 text-white p-2 w-10 ">
+                {currentCardIndex + 1}/{set.flashcards.length}
+              </div>
+
+              <div>{currentCard.answer}</div>
+            </Card>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap justify-center mt-6 space-x-6">
-        <Button className="flex justify-center p-10" onClick={handlePrevious}>
-          <ChevronLeft size={30} />
-        </Button>
-        <Button className="flex justify-center p-10" onClick={handleNext}>
-          <ChevronRight size={30} />
-        </Button>
+        <div className="flex flex-wrap justify-center mt-6 space-x-6">
+          <Button className="flex justify-center p-10" onClick={handlePrevious}>
+            <ChevronLeft size={30} />
+          </Button>
+          <Button className="flex justify-center p-10" onClick={handleNext}>
+            <ChevronRight size={30} />
+          </Button>
+        </div>
       </div>
     </div>
   );
