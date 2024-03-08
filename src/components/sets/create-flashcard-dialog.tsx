@@ -22,7 +22,7 @@ const CreateFlashcardDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-[--background] dark:bg-background">
         <DialogTitle>Add Flashcard</DialogTitle>
         <CreateFlashcardForm flashcard={flashcard} set={set} />
       </DialogContent>

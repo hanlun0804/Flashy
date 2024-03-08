@@ -60,7 +60,7 @@ const Search = ({ onSearchResults }: SearchProps) => {
     <Input
       type="text"
       placeholder="Search for sets..."
-      className="w-1/2 h-12 mr-5 bg-[#1f2531]"
+      className="w-1/2 h-12 mr-5 bg-card text-white"
       onChange={handleSearch}
       value={query}
     />

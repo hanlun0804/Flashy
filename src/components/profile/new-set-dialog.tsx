@@ -44,12 +44,12 @@ export default function NewSet(user: User) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-44 ml-auto" variant="positive">
-          <Plus className="mr-2" size={16} />
+        <Button className="w-44 ml-auto text-white" variant="positive">
+          <Plus className="mr-2 text-white" size={16} />
           New set
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-none">
+      <DialogContent className="border-none bg-[--background]">
         <DialogHeader>
           <DialogTitle>Create New Set</DialogTitle>
           <DialogDescription>
@@ -65,7 +65,11 @@ export default function NewSet(user: User) {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Set Name</FormLabel>
-                      <Input placeholder="Set Name" {...field} />
+                      <Input
+                        placeholder="Set Name"
+                        {...field}
+                        className="border-primary"
+                      />
                     </FormItem>
                   )}
                 />
