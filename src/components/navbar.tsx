@@ -31,11 +31,11 @@ const NavBar = () => {
 
   const logoLink = userSession ? "/profile" : "/home";
 
-const { data: user } = useQuery({
+  const { data: user } = useQuery({
     queryKey: ["user", "user_id"],
     queryFn: () => getUserById(userSession?.uid),
     enabled: !!userSession,
-  })
+  });
 
   return (
     <div className="bg-[#203354]">
@@ -92,7 +92,7 @@ const { data: user } = useQuery({
                         <ChevronRight className="ml-2" size={14} />
                       </Button>
                     </Link>
-                    {(user?.role === "admin") && (
+                    {user?.role === "admin" && (
                       <Link href="/admin" className="text-sm font-semibold">
                         <Button
                           variant="link"
@@ -113,7 +113,7 @@ const { data: user } = useQuery({
                       <LogOut className="ml-2" size={14} />
                     </Button>
                   </NavigationMenuContent>
-                </NavigationMenuItem> 
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           ) : (

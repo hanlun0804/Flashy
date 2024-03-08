@@ -9,7 +9,6 @@ import { useToast } from "../ui/use-toast";
 import { setUserType } from "@/actions/admin-actions";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useQueryClient } from "@tanstack/react-query";
-import Datetime from "react-datetime";
 
 export const AdminCreator = z.object({
   email: z.string().email().min(1),

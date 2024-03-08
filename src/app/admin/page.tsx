@@ -1,11 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { getAdmins } from "@/actions/admin-actions";
 import { AdminTable } from "@/components/adminpanel/admintable";
 import { columns } from "@/components/adminpanel/columns";
 import { useQuery } from "@tanstack/react-query";
-import { setUserType } from "@/actions/admin-actions";
 import CreateAdminDialog from "@/components/adminpanel/new-admin-dialog";
 import { Toaster } from "@/components/ui/toaster";
 

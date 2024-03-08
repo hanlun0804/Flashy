@@ -5,7 +5,6 @@ import { Role } from "@/types/user-type";
 import {
   collection,
   doc,
-  getDoc,
   getDocs,
   query,
   updateDoc,
