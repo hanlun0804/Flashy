@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import "./style.css";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addFavourite,
   getFlashcardSet,
@@ -14,6 +14,10 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
+import { Shuffle } from "lucide-react";
+import { doc } from "firebase/firestore";
+import { BookmarkX } from "lucide-react";
+import { Flashcard } from "@/types/flashcard";
 
 interface FlashCardSetPageProps {
   params: {
@@ -54,7 +58,12 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
         (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
     );
   };
-  const currentCard = set.flashcards[currentCardIndex];
+
+  const handleShuffle = () => {
+    setShowAnswer(false);
+    set.flashcards.sort(() => Math.random() - 0.5);
+    setCurrentCardIndex(0);
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     switch (event.key) {
@@ -87,6 +96,31 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     });
   };
 
+  const handleDifficulty = (
+    event: React.MouseEvent<HTMLElement>,
+    card: Flashcard,
+  ) => {
+    event.stopPropagation();
+    queryClient.setQueryData(["set", params.setId], (oldData: any) => {
+      const newFlashcards = oldData.flashcards.map((flashcard: Flashcard) => {
+        if (flashcard.id === card.id) {
+          return {
+            ...flashcard,
+            isDifficult: true,
+          };
+        }
+        return flashcard;
+      });
+
+      return {
+        ...oldData,
+        flashcards: [...newFlashcards, card],
+      };
+    });
+  };
+
+  const currentCard = set.flashcards[currentCardIndex];
+
   return (
     <div
       className="flex justify-center items-center w-full h-full flex-col pt-20"
@@ -116,20 +150,34 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
               onClick={() => setShowAnswer(!showAnswer)}
             >
-              <div className="absolute top-3 left-2 text-white p-2">
+              <div
+                className="absolute top-3 left-2 text-white p-2"
+                id="counter"
+              >
                 {currentCardIndex + 1}/{set.flashcards.length}
               </div>
               <div>{currentCard.question}</div>
+              {currentCard.isDifficult ? (
+                <Button className="absolute top-4 right-4 bg-red-900" disabled>
+                  <BookmarkX className="mr-2" /> Difficult
+                </Button>
+              ) : (
+                <Button
+                  className="absolute top-4 right-4 bg-red-900"
+                  onClick={(event) => handleDifficulty(event, currentCard)}
+                >
+                  <BookmarkX className="mr-2" /> Mark as difficult
+                </Button>
+              )}
             </Card>
 
             <Card
               className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
               onClick={() => setShowAnswer(!showAnswer)}
             >
-              <div className="absolute top-3 left-2 text-white p-2 w-10 ">
+              <div className="absolute top-3 left-3 text-white p-2">
                 {currentCardIndex + 1}/{set.flashcards.length}
               </div>
-
               <div>{currentCard.answer}</div>
             </Card>
           </div>
@@ -140,6 +188,11 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
           </Button>
           <Button className="flex justify-center p-10" onClick={handleNext}>
             <ChevronRight size={30} />
+          </Button>
+        </div>
+        <div className="flex justify-center">
+          <Button className="m-5 py-4" onClick={handleShuffle}>
+            <Shuffle className="mr-4" size={20} /> Shuffle
           </Button>
         </div>
       </div>
