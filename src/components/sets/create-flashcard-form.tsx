@@ -75,7 +75,11 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="question">Spørsmål</FormLabel>
-                <Input {...field} placeholder={"Spørsmål"} />
+                <Input
+                  {...field}
+                  placeholder={"Spørsmål"}
+                  className="border-primary placeholder:text-backrgound"
+                />
               </FormItem>
             )}
           />
@@ -86,7 +90,11 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="answer">Svar</FormLabel>
-                <Input {...field} placeholder={"Svar"} />
+                <Input
+                  {...field}
+                  placeholder={"Svar"}
+                  className="border-primary placeholder:text-backrgound"
+                />
               </FormItem>
             )}
           />

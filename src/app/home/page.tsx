@@ -20,10 +20,7 @@ const Home = () => {
         Get started now
       </h2>
       <div className="mt-8">
-        <Button
-          className="bg-[--clr_secondary] hover:bg-[--clr_primary] text-white px-12"
-          onClick={handleGetStarted}
-        >
+        <Button variant="default" onClick={handleGetStarted}>
           <Link href="/sign-in-or-register">Get started</Link>
         </Button>
       </div>

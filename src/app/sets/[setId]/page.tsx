@@ -26,11 +26,7 @@ interface FlashCardSetPageProps {
 const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
   const { toast } = useToast();
 
-  const {
-    data: set,
-    isError,
-    isFetching,
-  } = useQuery({
+  const { data: set } = useQuery({
     queryKey: ["set", params.setId],
     queryFn: () => getFlashcardSet(params.setId),
   });
@@ -76,7 +72,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
                   );
                 }}
                 value="public"
-                className={`${isPublic ? "bg-[--clr_primary]" : "bg-[#17263a]"}`}
+                className={`${isPublic ? "bg-primary text-white" : "bg-card-foreground dark:bg-secondary"}`}
               >
                 Public
               </ToggleGroupItem>
@@ -88,7 +84,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
                   );
                 }}
                 value="private"
-                className={`${isPublic ? "bg-[#17263a]" : "bg-[--clr_primary]"}`}
+                className={`${isPublic ? "bg-card-foreground dark:bg-secondary" : "bg-primary text-white"}`}
               >
                 Private
               </ToggleGroupItem>

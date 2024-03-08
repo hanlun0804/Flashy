@@ -15,6 +15,9 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/firebase/firebase";
 import { useRouter } from "next/navigation";
+
+import { ChangeTheme } from "./theme-provider";
+
 import useUserSession from "@/hooks/use-user-session";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "@/actions/login-actions";
@@ -57,7 +60,7 @@ const NavBar = () => {
               {userSession && (
                 <li>
                   <Link href="/profile">
-                    <Button variant="link" className="text-md">
+                    <Button variant="link" className="text-md text-white">
                       My flashcard sets
                     </Button>
                   </Link>
@@ -65,7 +68,7 @@ const NavBar = () => {
               )}
               <li>
                 <Link href="/explore">
-                  <Button variant="link" className="text-md">
+                  <Button variant="link" className="text-md text-white">
                     Explore
                   </Button>
                 </Link>
@@ -75,6 +78,7 @@ const NavBar = () => {
         </div>
 
         <div className="flex items-center gap-4">
+          <ChangeTheme />
           {userSession ? (
             <NavigationMenu>
               <NavigationMenuList>

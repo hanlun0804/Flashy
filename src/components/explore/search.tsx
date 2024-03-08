@@ -27,12 +27,20 @@ const Search = ({ onSearchResults }: SearchProps) => {
     queryFn: () => getAllPublicSets(),
   });
 
+  // const sortedData = allSets?.sort((a,b) => a.likedBy - b.likedBy);
+
   // Sets flashcardContent once when page is
   useEffect(() => {
     const setArray: FlashcardSet[] = [];
     allSets?.map((set) => setArray.push(set));
     setflashcardContent(setArray);
   }, [allSets]);
+
+  // useEffect(() => {
+  //   const setArray: FlashcardSet[] = [];
+  //   sortedData?.map((set) => setArray.push(set));
+  //   setflashcardContent(setArray);
+  // }, [sortedData]);
 
   // Function is called when searchfield changes
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +68,7 @@ const Search = ({ onSearchResults }: SearchProps) => {
     <Input
       type="text"
       placeholder="Search for sets..."
-      className="w-1/2 h-12 mr-5 bg-[#1f2531]"
+      className="w-1/2 h-12 mr-5 bg-card text-white"
       onChange={handleSearch}
       value={query}
     />

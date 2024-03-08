@@ -31,6 +31,8 @@ const Explore = () => {
     queryFn: () => getAllPublicSets(),
   });
 
+  // const sortedData = allSets?.sort((a,b) => a.likedBy - b.likedBy);
+
   const [searchResults, setSearchResults] = useState<
     FuseResult<FlashcardSet>[]
   >([]);
