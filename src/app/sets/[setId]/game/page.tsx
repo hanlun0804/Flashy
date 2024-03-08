@@ -11,6 +11,7 @@ import {
   removeFavourite,
 } from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 import { Shuffle } from "lucide-react";
@@ -138,16 +139,21 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
           </Button>
         )}
       </div>
-      <div className="flex justify-center items-center flip-card mt-8">
-        <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
-          <Card
-            className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
-            onClick={() => setShowAnswer(!showAnswer)}
-          >
-            <div className="absolute top-3 left-3 text-white p-2" id="counter">
-              {currentCardIndex + 1}/{set.flashcards.length}
-            </div>
-            <div>{currentCard.question}</div>
+      <div>
+        <Progress
+          className="mt-6"
+          value={((currentCardIndex + 1) / set.flashcards.length) * 100}
+        />
+        <div className="flex justify-center items-center flip-card mt-2">
+          <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
+            <Card
+              className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              onClick={() => setShowAnswer(!showAnswer)}
+            >
+              <div className="absolute top-3 left-2 text-white p-2" id="counter">
+                {currentCardIndex + 1}/{set.flashcards.length}
+              </div>
+              <div>{currentCard.question}</div>
             {currentCard.isDifficult ? (
               <Button className="absolute top-4 right-4 bg-red-900" disabled>
                 <BookmarkX className="mr-2" /> Difficult
@@ -160,7 +166,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
                 <BookmarkX className="mr-2" /> Mark as difficult
               </Button>
             )}
-          </Card>
+            </Card>
 
           <Card
             className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
@@ -181,11 +187,12 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
           <ChevronRight size={30} />
         </Button>
       </div>
-      <div>
+      <div className="flex justify-center">
         <Button className="m-5 py-4" onClick={handleShuffle}>
           <Shuffle className="mr-4" size={20} /> Shuffle
         </Button>
       </div>
+    </div>
     </div>
   );
 };
