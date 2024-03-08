@@ -54,7 +54,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
-        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length
+        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
     );
   };
 
@@ -97,7 +97,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
 
   const handleDifficulty = (
     event: React.MouseEvent<HTMLElement>,
-    card: Flashcard
+    card: Flashcard,
   ) => {
     event.stopPropagation();
     queryClient.setQueryData(["set", params.setId], (oldData: any) => {
@@ -150,7 +150,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
             <div>{currentCard.question}</div>
             {currentCard.isDifficult ? (
               <Button className="absolute top-4 right-4 bg-red-900" disabled>
-                <BookmarkX  className="mr-2"/> Difficult
+                <BookmarkX className="mr-2" /> Difficult
               </Button>
             ) : (
               <Button
