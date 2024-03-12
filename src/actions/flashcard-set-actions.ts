@@ -39,6 +39,7 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
     createdBy: data.createdBy,
     createdAt: data.createdAt.toDate(),
     updatedAt: data.updatedAt.toDate(),
+    tags: data.tags,
     flashcards: flashcards,
   } as FlashcardSet;
 };
@@ -62,6 +63,7 @@ export const getFlashcardSets = async (
       createdBy: doc.data().createdBy,
       createdAt: doc.data().createdAt.toDate(),
       updatedAt: doc.data().updatedAt.toDate(),
+      tags: doc.data().tags,
       flashcards: [],
     });
   });
@@ -174,6 +176,7 @@ export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
         (userSnapshot.data() as any)?.name || document.data().createdBy,
       createdAt: document.data().createdAt.toDate(),
       updatedAt: document.data().updatedAt.toDate(),
+      tags: document.data().tags,
       flashcards: [],
     } as FlashcardSet;
   });
@@ -202,5 +205,15 @@ export const removeFavourite = async (userId: string, setId: string) => {
   const docRef = doc(db, "users", userId);
   await updateDoc(docRef, {
     favourites: arrayRemove(setId),
+  });
+};
+
+export const setFlashCardSetTags = async (
+  id: string,
+  tags: string[],
+): Promise<void> => {
+  const docRef = doc(db, "sets", id);
+  return await updateDoc(docRef, {
+    tags: tags,
   });
 };
