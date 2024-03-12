@@ -44,7 +44,7 @@ const Explore = () => {
 
   const userFavoriteSetIds = user?.favourites;
   const userFavoriteSets = allSets?.filter((set) =>
-    userFavoriteSetIds?.includes(set.id)
+    userFavoriteSetIds?.includes(set.id),
   );
   console.log("Ids: " + userFavoriteSetIds);
   console.log("Sets: ", userFavoriteSets);
