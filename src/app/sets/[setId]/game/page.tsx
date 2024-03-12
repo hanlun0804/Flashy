@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import "./style.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addFavourite,
+  addLikedSet,
   getFlashcardSet,
   removeFavourite,
+  removeLikedSet,
 } from "@/actions/flashcard-set-actions";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -96,6 +98,20 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     });
   };
 
+  const handleLike = () => {
+    if (!user) {
+      return;
+    }
+    if (user?.likedSets?.includes(set.id)) {
+      removeLikedSet(user.id, set.id);
+    } else {
+      addLikedSet(user.id, set.id);
+    }
+    queryClient.invalidateQueries({
+      queryKey: ["user"],
+    });
+  };
+
   const handleDifficulty = (
     event: React.MouseEvent<HTMLElement>,
     card: Flashcard,
@@ -130,13 +146,22 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
       <div className="flex flex-row space-x-2 items-center">
         <h1>Playing: {set.name}</h1>
         {user?.id && (
-          <Button variant="ghost" onClick={handleFavourite}>
-            <Star
-              size={30}
-              fill="#e8f0ff"
-              fillOpacity={user?.favourites?.includes(set.id) ? 1 : 0}
-            />
-          </Button>
+          <>
+            <Button variant="ghost" onClick={handleFavourite}>
+              <Star
+                size={30}
+                fill="#e8f0ff"
+                fillOpacity={user?.favourites?.includes(set.id) ? 1 : 0}
+              />
+            </Button>
+            <Button variant="ghost" onClick={handleLike}>
+              <Heart
+                size={30}
+                fill="#e8f0ff"
+                fillOpacity={user?.likedSets?.includes(set.id) ? 1 : 0}
+              />
+            </Button>
+          </>
         )}
       </div>
       <div>

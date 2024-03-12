@@ -9,6 +9,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   query,
   updateDoc,
   where,
@@ -121,7 +122,7 @@ export const updateVisibility = async (
   try {
     await updateDoc(docRef, {
       [publicSet]: isPublic,
-    });
+    } as any);
     console.log("Visibility is updated");
   } catch (error) {
     console.error("Error occured while updating visibility: ", error);
@@ -208,6 +209,30 @@ export const removeFavourite = async (userId: string, setId: string) => {
   });
 };
 
+export const addLikedSet = async (userId: string, setId: string) => {
+  const docRef = doc(db, "users", userId);
+  await updateDoc(docRef, {
+    likedSets: arrayUnion(setId),
+  });
+
+  const setRef = doc(db, "sets", setId);
+  await updateDoc(setRef, {
+    likes: increment(1),
+  });
+};
+
+export const removeLikedSet = async (userId: string, setId: string) => {
+  const docRef = doc(db, "users", userId);
+  await updateDoc(docRef, {
+    likedSets: arrayRemove(setId),
+  });
+
+  const setRef = doc(db, "sets", setId);
+  await updateDoc(setRef, {
+    likes: increment(-1),
+  });
+};
+
 export const setFlashCardSetTags = async (
   id: string,
   tags: string[],
@@ -215,5 +240,5 @@ export const setFlashCardSetTags = async (
   const docRef = doc(db, "sets", id);
   return await updateDoc(docRef, {
     tags: tags,
-  });
+  } as any);
 };
