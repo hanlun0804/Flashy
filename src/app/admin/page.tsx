@@ -2,12 +2,12 @@
 
 import { getAdmins } from "@/actions/admin-actions";
 import { AdminTable } from "@/components/adminpanel/admintable";
-import { columns } from "@/components/adminpanel/columns";
+import { Columns } from "@/components/adminpanel/columns";
 import { useQuery } from "@tanstack/react-query";
 import CreateAdminDialog from "@/components/adminpanel/new-admin-dialog";
 import { Toaster } from "@/components/ui/toaster";
 
-const adminpanel = () => {
+const Adminpanel = () => {
   const { data: admins } = useQuery({
     queryKey: ["admins"],
     queryFn: () => getAdmins(),
@@ -23,7 +23,7 @@ const adminpanel = () => {
     <>
       <div className="flex flex-col items-center justify-center h-screen px-20">
         <div>
-          <AdminTable columns={columns} data={admins} />
+          <AdminTable columns={Columns} data={admins} />
         </div>
 
         <div>
@@ -37,4 +37,4 @@ const adminpanel = () => {
   );
 };
 
-export default adminpanel;
+export default Adminpanel;
