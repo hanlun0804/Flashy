@@ -8,7 +8,6 @@ import { updatePassword } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { UserInfo } from "@/components/adminpanel/columns";
 
-
 export const getUserById = async (id: string): Promise<User> => {
   const docRef = doc(db, "users", id!);
   const snapshot = await getDoc(docRef);

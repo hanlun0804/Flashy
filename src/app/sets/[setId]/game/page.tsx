@@ -51,7 +51,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
-        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length
+        (prevIndex - 1 + set.flashcards.length) % set.flashcards.length,
     );
   };
   const currentCard = set.flashcards[currentCardIndex];
