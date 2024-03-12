@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { ChangeTheme } from "./theme-provider";
 
 import useUserSession from "@/hooks/use-user-session";
+import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "@/actions/login-actions";
 
 const NavBar = () => {
   const router = useRouter();
@@ -31,6 +33,12 @@ const NavBar = () => {
   };
 
   const logoLink = userSession ? "/profile" : "/home";
+
+  const { data: user } = useQuery({
+    queryKey: ["user", "user_id"],
+    queryFn: () => getUserById(userSession?.uid),
+    enabled: !!userSession,
+  });
 
   return (
     <div className="bg-[#203354]">
@@ -88,6 +96,17 @@ const NavBar = () => {
                         <ChevronRight className="ml-2" size={14} />
                       </Button>
                     </Link>
+                    {user?.role === "admin" && (
+                      <Link href="/admin" className="text-sm font-semibold">
+                        <Button
+                          variant="link"
+                          className="px-1 justify-between w-full"
+                        >
+                          Admin page
+                          <ChevronRight className="ml-2" size={14} />
+                        </Button>
+                      </Link>
+                    )}
                     <Separator className="my-2" />
                     <Button
                       variant="link"
