@@ -3,6 +3,7 @@ export interface User {
   name: string;
   role: string;
   favourites: string[];
+  likedSets: string[];
   sets: string[];
 }
 
