@@ -62,6 +62,7 @@ export const getFlashcardSets = async (
       id: doc.id,
       name: doc.data().name,
       createdBy: doc.data().createdBy,
+      likes: doc.data().likes,
       createdAt: doc.data().createdAt.toDate(),
       updatedAt: doc.data().updatedAt.toDate(),
       tags: doc.data().tags,
@@ -175,6 +176,7 @@ export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
       name: document.data().name,
       createdBy:
         (userSnapshot.data() as any)?.name || document.data().createdBy,
+      likes: document.data().likes,
       createdAt: document.data().createdAt.toDate(),
       updatedAt: document.data().updatedAt.toDate(),
       tags: document.data().tags,

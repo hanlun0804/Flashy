@@ -31,7 +31,7 @@ const Explore = () => {
     queryFn: () => getAllPublicSets(),
   });
 
-  // const sortedData = allSets?.sort((a,b) => a.likedBy - b.likedBy);
+  const sortedData = allSets?.sort((a, b) => b.likes - a.likes);
 
   const [searchResults, setSearchResults] = useState<
     FuseResult<FlashcardSet>[]
@@ -43,11 +43,9 @@ const Explore = () => {
   };
 
   const userFavoriteSetIds = user?.favourites;
-  const userFavoriteSets = allSets?.filter((set) =>
+  const userFavoriteSets = sortedData?.filter((set) =>
     userFavoriteSetIds?.includes(set.id),
   );
-  console.log("Ids: " + userFavoriteSetIds);
-  console.log("Sets: ", userFavoriteSets);
 
   let visibleSets;
 
@@ -82,10 +80,11 @@ const Explore = () => {
         ))}
       </div>
     );
-  } else if (allSets !== undefined) {
+  } else if (sortedData !== undefined) {
+    console.log(sortedData);
     visibleSets = (
       <div className="flex flex-row flex-wrap justify-center gap-6 mb-20">
-        {allSets.map((set) => (
+        {sortedData.map((set) => (
           <Link href={`/sets/${set.id}/game`} key={set.id}>
             <FlashcardDisplay
               key={set.id}
@@ -120,28 +119,6 @@ const Explore = () => {
             fillOpacity={isFavorites ? 1 : 0}
           />
         </Button>
-        {/* Will be used for iteration 2
-            <div className="flex w-10 justify-center mr-2 bg-slate-200 border-solid border-slate-300 border-2 rounded-lg">
-                <DropdownMenu>
-                    <DropdownMenuTrigger><ArrowDownWideNarrow className="mx-1 text-[--clr_secondary]" /></DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>Most liked</DropdownMenuItem>
-                        <DropdownMenuItem>Most used</DropdownMenuItem>
-                        <DropdownMenuItem>A-Z</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-
-            <div className="flex w-10 justify-center bg-slate-200 border-solid border-slate-300 border-2 rounded-lg">
-                <DropdownMenu>
-                    <DropdownMenuTrigger><Filter className="mx-1 text-[--clr_secondary]" /></DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>Most liked</DropdownMenuItem>
-                        <DropdownMenuItem>Most used</DropdownMenuItem>
-                        <DropdownMenuItem>A-Z</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div> */}
       </div>
 
       {/* Container for cards of flashcard displays */}
