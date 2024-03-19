@@ -26,6 +26,7 @@ export const getFlashcards = async (set: string): Promise<Flashcard[]> => {
     return {
       id: doc.id,
       question: doc.data().question,
+      imageQuestionId: doc.data().imageQuestionId,
       answer: doc.data().answer,
     } as Flashcard;
   });

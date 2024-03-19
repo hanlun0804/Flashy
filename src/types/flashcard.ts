@@ -3,4 +3,5 @@ export interface Flashcard {
   question: string;
   answer: string;
   isDifficult: boolean;
+  imageQuestionId: string;
 }

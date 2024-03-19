@@ -20,6 +20,8 @@ import { Shuffle } from "lucide-react";
 import { doc } from "firebase/firestore";
 import { BookmarkX } from "lucide-react";
 import { Flashcard } from "@/types/flashcard";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/lib/firebase/firebase";
 
 interface FlashCardSetPageProps {
   params: {
@@ -32,6 +34,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const userSession = useUserSession();
   const queryClient = useQueryClient();
+  const [imgUrl, setImgUrl] = useState("");
 
   const { data: user } = useQuery({
     queryKey: ["user"],
@@ -49,11 +52,13 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
   }
 
   const handleNext = () => {
+    setImgUrl("");
     setShowAnswer(false);
     setCurrentCardIndex((prevIndex) => (prevIndex + 1) % set.flashcards.length);
   };
 
   const handlePrevious = () => {
+    setImgUrl("");
     setShowAnswer(false);
     setCurrentCardIndex(
       (prevIndex) =>
@@ -137,6 +142,14 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
 
   const currentCard = set.flashcards[currentCardIndex];
 
+  if (currentCard.imageQuestionId) {
+    const pathReference = ref(storage, currentCard.imageQuestionId);
+
+    getDownloadURL(pathReference).then((url) => {
+      setImgUrl(url);
+    });
+  }
+
   return (
     <div
       className="flex justify-center items-center w-full h-full flex-col pt-20"
@@ -181,7 +194,11 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               >
                 {currentCardIndex + 1}/{set.flashcards.length}
               </div>
-              <div>{currentCard.question}</div>
+              <div>
+                {currentCard.question}
+                <img src={imgUrl} alt="" className="max-h-48 m-4" />
+              </div>
+
               {currentCard.isDifficult ? (
                 <Button className="absolute top-4 right-4 bg-red-900" disabled>
                   <BookmarkX className="mr-2" /> Difficult
