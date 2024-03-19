@@ -20,34 +20,36 @@ interface PreviewProps {
  */
 const FlashcardPreview: React.FC<PreviewProps> = ({ set, edit }) => {
   return (
-    <Card key={set.id} className="mb-4 cursor-pointer">
-      {/* Flashcard set's title */}
-      <CardHeader>
-        <CardTitle>{set.name}</CardTitle>
-      </CardHeader>
+    <Link href={`/sets/${set.id}`}>
+      <Card key={set.id} className="mb-4 cursor-pointer">
+        {/* Flashcard set's title */}
+        <CardHeader>
+          <CardTitle>{set.name}</CardTitle>
+        </CardHeader>
 
-      {/* Edit and start flashcards buttons */}
-      <CardFooter className="p-5">
-        {edit && (
-          <Link className="ml-auto mr-4" href={`/sets/${set.id}`}>
-            <Button className="px-6">
-              <Pencil className="mr-2" size={16} />
-              Edit
+        {/* Edit and start flashcards buttons */}
+        <CardFooter className="p-5">
+          {edit && (
+            <Link className="ml-auto mr-4" href={`/sets/${set.id}/edit`}>
+              <Button className="px-6">
+                <Pencil className="mr-2" size={16} />
+                Edit
+              </Button>
+            </Link>
+          )}
+
+          <Link
+            href={`/sets/${set.id}/game`}
+            className={!edit ? "ml-auto mr-4" : ""}
+          >
+            <Button variant="positive">
+              PLAY NOW
+              <Play className="ml-2" size={16} />
             </Button>
           </Link>
-        )}
-
-        <Link
-          href={`/sets/${set.id}/game`}
-          className={!edit ? "ml-auto mr-4" : ""}
-        >
-          <Button variant="positive">
-            PLAY NOW
-            <Play className="ml-2" size={16} />
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
+        </CardFooter>
+      </Card>{" "}
+    </Link>
   );
 };
 

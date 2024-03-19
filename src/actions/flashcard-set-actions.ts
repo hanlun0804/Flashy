@@ -18,6 +18,8 @@ import { FlashcardSet } from "@/types/flashcard-set";
 import { db, deleteQueryBatch } from "@/lib/firebase/firebase";
 import { getFlashcards } from "@/actions/flashcard-actions";
 import { getUserById } from "./login-actions";
+import { Snail } from "lucide-react";
+import { getComments } from "./comment-actions";
 
 /**
  * Gets a flashcard set by its id
@@ -34,6 +36,8 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
   }
 
   const flashcards = await getFlashcards(id);
+  const comments = await getComments(id);
+
   return {
     id: snapshot.id,
     name: data.name,
@@ -42,6 +46,7 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
     updatedAt: data.updatedAt.toDate(),
     tags: data.tags,
     flashcards: flashcards,
+    comments: comments,
   } as FlashcardSet;
 };
 
@@ -67,6 +72,7 @@ export const getFlashcardSets = async (
       updatedAt: doc.data().updatedAt.toDate(),
       tags: doc.data().tags,
       flashcards: [],
+      comments: [],
     });
   });
   return sets;
@@ -181,6 +187,7 @@ export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
       updatedAt: document.data().updatedAt.toDate(),
       tags: document.data().tags,
       flashcards: [],
+      comments: [],
     } as FlashcardSet;
   });
 

@@ -70,7 +70,7 @@ const Explore = () => {
     visibleSets = (
       <div className="flex flex-row flex-wrap justify-center gap-6 mb-20">
         {userFavoriteSets.map((set) => (
-          <Link href={`/sets/${set.id}/game`} key={set.id}>
+          <Link href={`/sets/${set.id}`} key={set.id}>
             <FlashcardDisplay
               key={set.id}
               subject={set.name}
@@ -85,7 +85,7 @@ const Explore = () => {
     visibleSets = (
       <div className="flex flex-row flex-wrap justify-center gap-6 mb-20">
         {sortedData.map((set) => (
-          <Link href={`/sets/${set.id}/game`} key={set.id}>
+          <Link href={`/sets/${set.id}`} key={set.id}>
             <FlashcardDisplay
               key={set.id}
               subject={set.name}
