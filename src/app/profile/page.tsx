@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSets } from "@/actions/flashcard-set-actions";
 import { useRouter } from "next/navigation";
 import FlashcardPreview from "@/components/profile/flashcard-preview-card";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Profile() {
   const userSession = useUserSession();
@@ -105,11 +106,19 @@ export default function Profile() {
           >
             {sets &&
               sets.map((set, index) => {
-                return <FlashcardPreview set={set} key={index} edit={true} />;
+                return (
+                  <FlashcardPreview
+                    set={set}
+                    key={index}
+                    edit={true}
+                    user={user!}
+                  />
+                );
               })}
           </Suspense>
         </ul>
       </section>
+      <Toaster />
     </main>
   );
 }

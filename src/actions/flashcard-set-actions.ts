@@ -11,6 +11,7 @@ import {
   getDocs,
   increment,
   query,
+  QueryDocumentSnapshot,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -18,6 +19,7 @@ import { FlashcardSet } from "@/types/flashcard-set";
 import { db, deleteQueryBatch } from "@/lib/firebase/firebase";
 import { getFlashcards } from "@/actions/flashcard-actions";
 import { getUserById } from "./login-actions";
+import { User } from "@/types/user-type";
 import { Snail } from "lucide-react";
 import { getComments } from "./comment-actions";
 
@@ -51,31 +53,47 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
 };
 
 /**
- * Gets all flashcard sets created by a user
+ * Gets all flashcard sets created by or shared with a user
  * @param userId the id of the user
  * @returns a promise that resolves to an array of flashcard sets
  */
 export const getFlashcardSets = async (
   userId: string,
 ): Promise<FlashcardSet[]> => {
-  const q = query(collection(db, "sets"), where("createdBy", "==", userId));
+  const createdByQuery = query(
+    collection(db, "sets"),
+    where("createdBy", "==", userId),
+  );
+  const canEditQuery = query(
+    collection(db, "sets"),
+    where("canEdit", "array-contains", userId),
+  );
 
-  const sets: FlashcardSet[] = [];
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    sets.push({
-      id: doc.id,
-      name: doc.data().name,
-      createdBy: doc.data().createdBy,
-      likes: doc.data().likes,
-      createdAt: doc.data().createdAt.toDate(),
-      updatedAt: doc.data().updatedAt.toDate(),
-      tags: doc.data().tags,
-      flashcards: [],
-      comments: [],
-    });
+  // const sets: FlashcardSet[] = [];
+  const createdByResults = await getDocs(createdByQuery);
+  const canEditResults = await getDocs(canEditQuery);
+
+  const results = new Map<string, QueryDocumentSnapshot>();
+  createdByResults.forEach((doc) => {
+    results.set(doc.id, doc);
   });
-  return sets;
+
+  canEditResults.forEach((doc) => {
+    if (!results.has(doc.id)) {
+      results.set(doc.id, doc);
+    }
+  });
+  return Array.from(results.values()).map((doc) => ({
+    id: doc.id,
+    name: doc.data().name,
+    createdBy: doc.data().createdBy,
+    likes: doc.data().likes,
+    createdAt: doc.data().createdAt.toDate(),
+    updatedAt: doc.data().updatedAt.toDate(),
+    tags: doc.data().tags,
+    flashcards: [],
+    comments: [],
+  }));
 };
 
 /**
@@ -215,6 +233,32 @@ export const removeFavourite = async (userId: string, setId: string) => {
   const docRef = doc(db, "users", userId);
   await updateDoc(docRef, {
     favourites: arrayRemove(setId),
+  });
+};
+
+export const getUserByEmail = async (email: string): Promise<User> => {
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    throw new Error("No such user!");
+  }
+
+  const userDoc = querySnapshot.docs[0];
+
+  return {
+    id: userDoc.id,
+    ...userDoc.data(),
+  } as User;
+};
+
+export const addCanEdit = async (email: string, setId: string) => {
+  const user = await getUserByEmail(email);
+
+  const docRef = doc(db, "sets", setId);
+  await updateDoc(docRef, {
+    canEdit: arrayUnion(user.id),
   });
 };
 
