@@ -1,4 +1,5 @@
 import { Flashcard } from "@/types/flashcard";
+import { Comment } from "@/types/comment";
 
 export interface FlashcardSet {
   id: string;
@@ -9,4 +10,5 @@ export interface FlashcardSet {
   createdAt: Date;
   updatedAt: Date;
   flashcards: Flashcard[];
+  comments: Comment[];
 }

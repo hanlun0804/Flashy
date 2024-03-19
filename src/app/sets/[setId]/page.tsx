@@ -1,30 +1,12 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
+import { addComment } from "@/actions/comment-actions";
+import { getFlashcardSet } from "@/actions/flashcard-set-actions";
+import FlashcardPreview from "@/components/profile/flashcard-preview-card";
 import { Button } from "@/components/ui/button";
-import { Edit, Play, Plus } from "lucide-react";
-import FlashcardPreview from "@/components/sets/flashcard-preview";
-import { useQuery } from "@tanstack/react-query";
-import {
-  deleteFlashcardSet,
-  getFlashcardSet,
-  updateVisibility,
-} from "@/actions/flashcard-set-actions";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import FlashcardSetOptions from "@/components/sets/flashcard-set-options";
-import CreateFlashcardDialog from "@/components/sets/create-flashcard-dialog";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useState } from "react";
-import { TagsInput } from "@/components/ui/tags-input";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import SetTags from "@/components/sets/set-tags";
+import { Card, CardTitle } from "@/components/ui/card";
+import useUserSession from "@/hooks/use-user-session";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface FlashCardSetPageProps {
   params: {
@@ -32,102 +14,62 @@ interface FlashCardSetPageProps {
   };
 }
 
-const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
-  const { toast } = useToast();
+export default function FlashcardPage({ params }: FlashCardSetPageProps) {
+  const userSession = useUserSession();
+  const queryClient = useQueryClient();
+
   const { data: set } = useQuery({
     queryKey: ["set", params.setId],
     queryFn: () => getFlashcardSet(params.setId),
   });
 
-  const [isPublic, setIsPublic] = useState(true);
-
-  const onDelete = () => {
-    deleteFlashcardSet(params.setId).then(() => {
-      toast({
-        title: "Set Deleted",
-        description: "The flashcard set has been deleted",
-        duration: 3000,
+  const handleAddComment = (id: string) => {
+    addComment(
+      userSession.uid,
+      id,
+      (document.getElementById("comment") as HTMLInputElement).value,
+    ).then(() => {
+      queryClient.invalidateQueries({
+        queryKey: ["set", params.setId],
       });
     });
   };
 
-  // const onPrivate = () => {
-  //   setAsPrivate(params.setId).then(() => ) {
-
-  //   }
-  // }
-
   return (
-    <div className="flex justify-center h-screen pt-24">
-      <div className="flex flex-row items-start space-x-12 w-fit">
-        <section className="flex flex-col space-y-4">
-          {set && <h1>{set.name}</h1>}
-          <div className="w-96">{set && <SetTags set={set} canEdit />}</div>
-          <Separator />
-          <a href={`${params.setId}/game`}>
-            <Button className="w-full py-8 shadow-xl" variant="positive">
-              PLAY NOW
-              <Play className="ml-2" size={16} fill="#e8f0ff" />
-            </Button>
-          </a>
-          <div className="flex justify-between">
-            <ToggleGroup type="single">
-              <ToggleGroupItem
-                onFocus={() => {
-                  setIsPublic(true);
-                  updateVisibility(params.setId, "publicSet", true).catch(
-                    console.error,
-                  );
-                }}
-                value="public"
-                className={`${isPublic ? "bg-primary text-white" : "bg-card-foreground dark:bg-secondary"}`}
-              >
-                Public
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                onFocus={() => {
-                  setIsPublic(false);
-                  updateVisibility(params.setId, "publicSet", false).catch(
-                    console.error,
-                  );
-                }}
-                value="private"
-                className={`${isPublic ? "bg-card-foreground dark:bg-secondary" : "bg-primary text-white"}`}
-              >
-                Private
-              </ToggleGroupItem>
-            </ToggleGroup>
+    <main className="mb-6">
+      {set && (
+        <>
+          <h1 className="max-w-4xl mx-auto mt-20">{set!.name}</h1>
+          <section className="max-w-4xl mx-auto mt-6">
+            <FlashcardPreview set={set!} edit={true} />
+            <Card className="flex flex-col gap-4 pb-4">
+              <CardTitle className="p-4 pb-0">Comments:</CardTitle>
 
-            {set && <FlashcardSetOptions set={set} onDelete={onDelete} />}
-          </div>
-        </section>
-
-        <section className="flex flex-col space-y-4 pb-12 w-full">
-          <div className="flex flex-row items-center justify-between">
-            <h3>Flashcards</h3>
-            {set && (
-              <CreateFlashcardDialog set={set}>
-                <Button className="ml-auto">
-                  <Plus className="mr-2" size={16} />
-                  Add Flashcard
-                </Button>
-              </CreateFlashcardDialog>
-            )}
-          </div>
-          <Separator />
-          {set &&
-            set.flashcards.map((flashCard) => (
-              <FlashcardPreview
-                key={flashCard.id}
-                flashcard={flashCard}
-                set={set}
-              />
-            ))}
-        </section>
-      </div>
-      <Toaster />
-    </div>
+              <input
+                id="comment"
+                type="text"
+                className="p-4 mx-4 rounded-md text-primary dark:text-white"
+                placeholder="Add a comment..."
+              ></input>
+              <Button
+                className="mx-4"
+                onClick={() => handleAddComment(set!!.id)}
+              >
+                Send
+              </Button>
+              {set.comments!.map((comment, index) => {
+                return (
+                  <Card key={index} className="mx-4 border-2 p-4">
+                    <CardTitle className="mb-4">{comment.createdBy}</CardTitle>
+                    <hr className="mb-4" />
+                    <p>{comment.content}</p>
+                  </Card>
+                );
+              })}
+            </Card>
+          </section>
+        </>
+      )}
+    </main>
   );
-};
-
-export default FlashCardSetPage;
+}
