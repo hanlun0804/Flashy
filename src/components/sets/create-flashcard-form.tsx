@@ -13,6 +13,10 @@ import { createFlashcard, updateFlashcard } from "@/actions/flashcard-actions";
 import { Toaster } from "@/components/ui/toaster";
 import { useQueryClient } from "@tanstack/react-query";
 import { Flashcard } from "@/types/flashcard";
+import { useState } from "react";
+import { storage } from "@/lib/firebase/firebase";
+import { v4 } from "uuid";
+import { ref, uploadBytes } from "firebase/storage";
 
 interface CreateFlashcardFormProps {
   set: FlashcardSet;
@@ -22,11 +26,13 @@ interface CreateFlashcardFormProps {
 export const CreateFlashcardSchema = z.object({
   question: z.string().min(1),
   answer: z.string().min(1),
+  imageQuestionId: z.string().optional(),
 });
 
 const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [img, setImg] = useState("");
 
   const form = useForm<z.infer<typeof CreateFlashcardSchema>>({
     resolver: zodResolver(CreateFlashcardSchema),
@@ -37,6 +43,9 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
   });
 
   const onSubmit = async (data: z.infer<typeof CreateFlashcardSchema>) => {
+    const imageRef = ref(storage, `files/${v4()}`);
+    const snapshot = await uploadBytes(imageRef, img as any);
+    data.imageQuestionId = snapshot.metadata.fullPath;
     if (flashcard) {
       updateFlashcard(set.id, flashcard.id, data).then(() => {
         toast({
@@ -83,6 +92,20 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
               </FormItem>
             )}
           />
+
+          <FormItem>
+            <FormLabel htmlFor="image">Bilde til spørsmål</FormLabel>
+            <Input
+              type="file"
+              id="imageq"
+              onChange={(e) =>
+                setImg(e.target.files ? (e.target.files[0] as any) : "")
+              }
+              name="image"
+              accept="image/*"
+              className="border-primary placeholder:text-background"
+            />
+          </FormItem>
 
           <FormField
             name={"answer"}
