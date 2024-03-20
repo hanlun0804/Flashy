@@ -11,4 +11,5 @@ export interface FlashcardSet {
   updatedAt: Date;
   flashcards: Flashcard[];
   comments: Comment[];
+  canEdit: string[];
 }

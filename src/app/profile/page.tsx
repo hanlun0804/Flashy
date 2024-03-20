@@ -13,8 +13,8 @@ import { getUserById } from "@/actions/login-actions";
 import { useQuery } from "@tanstack/react-query";
 import { getFlashcardSets } from "@/actions/flashcard-set-actions";
 import { useRouter } from "next/navigation";
-import FlashcardPreview from "@/components/profile/flashcard-preview-card";
 import { Toaster } from "@/components/ui/toaster";
+import SetInfo from "@/components/profile/set-info";
 
 export default function Profile() {
   const userSession = useUserSession();
@@ -88,7 +88,7 @@ export default function Profile() {
       {/* List of user's flashcards, inlucing new flashcards button */}
       <section id="your_flashcards" className="flex flex-col ml-64 mr-4">
         <section id="title" className="flex pb-4">
-          <h3 className="text-xl mt-4">Your Flashcards</h3>
+          <h3 className="text-xl mt-4">Your Flashcard Sets</h3>
           <NewSet {...user!} />
         </section>
 
@@ -106,14 +106,7 @@ export default function Profile() {
           >
             {sets &&
               sets.map((set, index) => {
-                return (
-                  <FlashcardPreview
-                    set={set}
-                    key={index}
-                    edit={true}
-                    user={user!}
-                  />
-                );
+                return set && <SetInfo set={set} key={index} user={user!} />;
               })}
           </Suspense>
         </ul>

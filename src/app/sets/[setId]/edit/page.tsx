@@ -43,12 +43,6 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
     });
   };
 
-  // const onPrivate = () => {
-  //   setAsPrivate(params.setId).then(() => ) {
-
-  //   }
-  // }
-
   return (
     <div className="flex justify-center h-screen pt-24">
       <div className="flex flex-row items-start space-x-12 w-fit">

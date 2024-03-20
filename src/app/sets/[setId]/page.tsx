@@ -3,7 +3,7 @@
 import { addComment } from "@/actions/comment-actions";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
 import { getUserById } from "@/actions/login-actions";
-import FlashcardPreview from "@/components/profile/flashcard-preview-card";
+import SetInfo from "@/components/profile/set-info";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import useUserSession from "@/hooks/use-user-session";
@@ -25,6 +25,12 @@ export default function FlashcardPage({ params }: FlashCardSetPageProps) {
   const { data: set } = useQuery({
     queryKey: ["set", params.setId],
     queryFn: () => getFlashcardSet(params.setId),
+  });
+
+  const { data: user } = useQuery({
+    queryKey: ["user", "user_id"],
+    queryFn: () => getUserById(userSession?.uid),
+    enabled: !!userSession,
   });
 
   const handleAddComment = (id: string) => {
@@ -50,8 +56,9 @@ export default function FlashcardPage({ params }: FlashCardSetPageProps) {
       {set && (
         <>
           <h1 className="max-w-4xl mx-auto mt-20">{set!.name}</h1>
+
           <section className="max-w-4xl mx-auto mt-6">
-            <FlashcardPreview set={set!} edit={true} user={userSession} />
+            <SetInfo set={set} user={user} />
             <Card className="p-6 mb-4">
               <CardTitle className="text-lg">
                 Likes: {set.likes > 0 ? set.likes : 0} | Created By:{" "}
