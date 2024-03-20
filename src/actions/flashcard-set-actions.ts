@@ -20,7 +20,6 @@ import { db, deleteQueryBatch } from "@/lib/firebase/firebase";
 import { getFlashcards } from "@/actions/flashcard-actions";
 import { getUserById } from "./login-actions";
 import { User } from "@/types/user-type";
-import { Snail } from "lucide-react";
 import { getComments } from "./comment-actions";
 
 /**
@@ -46,6 +45,7 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
     createdBy: data.createdBy,
     createdAt: data.createdAt.toDate(),
     updatedAt: data.updatedAt.toDate(),
+    likes: data.likes,
     tags: data.tags,
     flashcards: flashcards,
     comments: comments,

@@ -5,8 +5,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase/firebase";
 import { setDoc } from "firebase/firestore";
 import { updatePassword } from "firebase/auth";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { UserInfo } from "@/components/adminpanel/columns";
 
 export const getUserById = async (id: string): Promise<User> => {
   const docRef = doc(db, "users", id!);
