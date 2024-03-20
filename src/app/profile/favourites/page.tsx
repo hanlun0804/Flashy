@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import FlashcardPreview from "@/components/profile/flashcard-preview-card";
+import SetInfo from "@/components/profile/set-info";
 
 export default function Favourites() {
   const userSession = useUserSession();
@@ -45,7 +45,7 @@ export default function Favourites() {
             {sets?.length === 0 && <p>No flashcards found</p>}
             {sets &&
               sets.map((set, index) => {
-                return <FlashcardPreview set={set} edit={false} key={index} />;
+                return <SetInfo set={set} key={index} />;
               })}
           </Suspense>
         </ul>

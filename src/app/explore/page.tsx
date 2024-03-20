@@ -12,13 +12,11 @@ import { Button } from "@/components/ui/button";
 import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 import { FilterIcon, Star } from "lucide-react";
-import { optional } from "zod";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -151,6 +149,8 @@ const Explore = () => {
               <FlashcardDisplay
                 subject={set.name}
                 creator={set.createdBy}
+                role={user?.role}
+                setId={set.id}
               ></FlashcardDisplay>
             </Link>
           ))}

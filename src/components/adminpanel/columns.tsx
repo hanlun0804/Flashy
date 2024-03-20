@@ -51,26 +51,5 @@ export const Columns: ColumnDef<UserInfo>[] = [
   {
     id: "delete",
     cell: ({ row }) => <DeleteAdminButton row={row} />,
-    // cell: ({ row }) => {
-    //   const queryClient = useQueryClient();
-    //   const { toast } = useToast();
-
-    //   const handleDeleteAdmin = async () => {
-    //     await setUserType(row.getValue("email"), "user");
-    //     queryClient.invalidateQueries({
-    //       queryKey: ["admins"],
-    //     });
-    //     toast({
-    //       title: "Admin has been removed",
-    //       description: "",
-    //     });
-    //   };
-
-    //   return (
-    //     <Button variant="ghost" size="icon" onClick={handleDeleteAdmin}>
-    //       <XCircle className="h-4 w-4" />
-    //     </Button>
-    //   );
-    // },
   },
 ];

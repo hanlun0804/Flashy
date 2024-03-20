@@ -49,6 +49,7 @@ export const getFlashcardSet = async (id: string): Promise<FlashcardSet> => {
     tags: data.tags,
     flashcards: flashcards,
     comments: comments,
+    canEdit: data.canEdit || [],
   } as FlashcardSet;
 };
 
@@ -93,6 +94,7 @@ export const getFlashcardSets = async (
     tags: doc.data().tags,
     flashcards: [],
     comments: [],
+    canEdit: doc.data().canEdit || [],
   }));
 };
 
@@ -173,7 +175,6 @@ export const deleteFlashcardSet = async (id: string): Promise<void> => {
  */
 export const createFlashCardSet = async (name: string, userId: string) => {
   const docRef = collection(db, "sets");
-  console.log("userId", userId);
   const doc = await addDoc(docRef, {
     name,
     createdBy: userId,
@@ -206,6 +207,7 @@ export const getAllPublicSets = async (): Promise<FlashcardSet[]> => {
       tags: document.data().tags,
       flashcards: [],
       comments: [],
+      canEdit: document.data().canEdit || [],
     } as FlashcardSet;
   });
 

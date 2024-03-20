@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
+import AdminDeleteSet from "./admin-delete-set";
 
 interface FlashcardDisplayProps {
   subject: string;
