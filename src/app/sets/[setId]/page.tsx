@@ -2,11 +2,14 @@
 
 import { addComment } from "@/actions/comment-actions";
 import { getFlashcardSet } from "@/actions/flashcard-set-actions";
+import { getUserById } from "@/actions/login-actions";
 import FlashcardPreview from "@/components/profile/flashcard-preview-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import useUserSession from "@/hooks/use-user-session";
+import { User } from "@/types/user-type";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface FlashCardSetPageProps {
   params: {
@@ -17,6 +20,7 @@ interface FlashCardSetPageProps {
 export default function FlashcardPage({ params }: FlashCardSetPageProps) {
   const userSession = useUserSession();
   const queryClient = useQueryClient();
+  const [createdBy, setCreatedBy] = useState<User | undefined>(undefined);
 
   const { data: set } = useQuery({
     queryKey: ["set", params.setId],
@@ -35,13 +39,26 @@ export default function FlashcardPage({ params }: FlashCardSetPageProps) {
     });
   };
 
+  useEffect(() => {
+    if (set) {
+      getUserById(set.createdBy).then((user) => setCreatedBy(user));
+    }
+  }, [set]);
+
   return (
     <main className="mb-6">
       {set && (
         <>
           <h1 className="max-w-4xl mx-auto mt-20">{set!.name}</h1>
           <section className="max-w-4xl mx-auto mt-6">
-            <FlashcardPreview set={set!} edit={true} />
+            <FlashcardPreview set={set!} edit={true} user={userSession} />
+            <Card className="p-6 mb-4">
+              <CardTitle className="text-lg">
+                Likes: {set.likes > 0 ? set.likes : 0} | Created By:{" "}
+                {createdBy?.name}
+              </CardTitle>
+            </Card>
+
             <Card className="flex flex-col gap-4 pb-4">
               <CardTitle className="p-4 pb-0">Comments:</CardTitle>
 
