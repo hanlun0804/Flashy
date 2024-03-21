@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import { ChevronLeft, ChevronRight, Heart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import "./style.css";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addFavourite,
   addLikedSet,
@@ -17,10 +17,9 @@ import { Progress } from "@/components/ui/progress";
 import useUserSession from "@/hooks/use-user-session";
 import { getUserById } from "@/actions/login-actions";
 import { Shuffle } from "lucide-react";
-import { doc } from "firebase/firestore";
 import { BookmarkX } from "lucide-react";
 import { Flashcard } from "@/types/flashcard";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "@/lib/firebase/firebase";
 
 interface FlashCardSetPageProps {
@@ -156,21 +155,21 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
       onKeyDown={handleKeyPress}
       tabIndex={0}
     >
-      <div className="flex flex-row space-x-2 items-center">
+      <div className="flex flex-row items-center">
         <h1>Playing: {set.name}</h1>
         {user?.id && (
           <>
-            <Button variant="ghost" onClick={handleFavourite}>
+            <Button className="ml-4" variant="ghost" onClick={handleFavourite}>
               <Star
                 size={30}
-                fill="#e8f0ff"
+                fill="#dedc87"
                 fillOpacity={user?.favourites?.includes(set.id) ? 1 : 0}
               />
             </Button>
             <Button variant="ghost" onClick={handleLike}>
               <Heart
                 size={30}
-                fill="#e8f0ff"
+                fill="#c75b6a"
                 fillOpacity={user?.likedSets?.includes(set.id) ? 1 : 0}
               />
             </Button>
@@ -185,19 +184,18 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
         <div className="flex justify-center items-center flip-card mt-2">
           <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
             <Card
-              className="flip-card-front hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              className="flip-card-front flex justify-center items-center p-30 duration-300 cursor-pointer shadow-2xl"
               onClick={() => setShowAnswer(!showAnswer)}
             >
-              <div
-                className="absolute top-3 left-2 text-white p-2"
-                id="counter"
-              >
+              <span className="absolute top-3 left-2 p-2" id="counter">
                 {currentCardIndex + 1}/{set.flashcards.length}
-              </div>
-              <div>
-                {currentCard.question}
-                <img src={imgUrl} alt="" className="max-h-48 m-4" />
-              </div>
+              </span>
+              {imgUrl && imgUrl !== "" && (
+                <div>
+                  {currentCard.question}
+                  <img src={imgUrl} alt="" className="max-h-48 m-4" />
+                </div>
+              )}
 
               {currentCard.isDifficult ? (
                 <Button className="absolute top-4 right-4 bg-red-900" disabled>
@@ -214,12 +212,12 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
             </Card>
 
             <Card
-              className="flip-card-back hover:bg-[#444e63] flex justify-center items-center p-30 duration-300 cursor-pointer"
+              className="flip-card-back flex justify-center items-center p-30 duration-300 cursor-pointer shadow-2xl"
               onClick={() => setShowAnswer(!showAnswer)}
             >
-              <div className="absolute top-3 left-3 text-white p-2">
+              <span className="absolute top-3 left-3 p-2">
                 {currentCardIndex + 1}/{set.flashcards.length}
-              </div>
+              </span>
               <div>{currentCard.answer}</div>
             </Card>
           </div>

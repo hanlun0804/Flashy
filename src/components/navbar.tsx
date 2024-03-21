@@ -86,11 +86,11 @@ const NavBar = () => {
                   <NavigationMenuTrigger>
                     <UserRound />
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent className="shadow-lg p-4">
+                  <NavigationMenuContent className="shadow-lg py-4 px-6">
                     <Link href="/profile" className="text-sm font-semibold">
                       <Button
                         variant="link"
-                        className="px-1 justify-between w-full"
+                        className="px-0 justify-between w-full"
                       >
                         Profile
                         <ChevronRight className="ml-2" size={14} />
@@ -110,7 +110,7 @@ const NavBar = () => {
                     <Separator className="my-2" />
                     <Button
                       variant="link"
-                      className="text-sm font-semibold"
+                      className="text-sm justify-between w-full px-0 w-24"
                       onClick={handleLogout}
                     >
                       Log out
