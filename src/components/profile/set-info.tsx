@@ -59,7 +59,9 @@ const SetInfo = ({ set, user }: PreviewProps) => {
   };
 
   const canEdit =
-    user && (user.id === set.createdBy || (set.canEdit && set.canEdit.includes(user.id)));
+    user &&
+    (user.id === set.createdBy ||
+      (set.canEdit && set.canEdit.includes(user.id)));
   const canDelete = canEdit || (user && user.role === "admin");
 
   return (
