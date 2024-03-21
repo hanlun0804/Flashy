@@ -186,7 +186,7 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
         <div className="flex justify-center items-center flip-card mt-2">
           <div className={`flip-card-inner ${showAnswer ? "clicked" : ""}`}>
             <Card
-              className="flip-card-front flex justify-center items-center p-30 duration-300 cursor-pointer shadow-2xl"
+              className="flip-card-front flex flex-col justify-center items-center p-30 duration-300 cursor-pointer shadow-2xl"
               onClick={() => setShowAnswer(!showAnswer)}
             >
               <span className="absolute top-3 left-2 p-2" id="counter">

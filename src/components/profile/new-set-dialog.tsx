@@ -49,7 +49,7 @@ export default function NewSet(user: User) {
           New set
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-none bg-[--background]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Set</DialogTitle>
           <DialogDescription>
