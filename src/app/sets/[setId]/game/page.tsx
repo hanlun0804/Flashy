@@ -149,6 +149,8 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
     });
   }
 
+  console.log(currentCard);
+
   return (
     <div
       className="flex justify-center items-center w-full h-full flex-col pt-20"
@@ -192,21 +194,21 @@ const FlashCardGame = ({ params }: FlashCardSetPageProps) => {
               </span>
               {imgUrl && imgUrl !== "" && (
                 <div>
-                  {currentCard.question}
-                  <img src={imgUrl} alt="" className="max-h-48 m-4" />
+                  <img src={imgUrl} alt="" className="max-h-48 m-4"/>
                 </div>
               )}
+              <span>{currentCard.question}</span>
 
               {currentCard.isDifficult ? (
                 <Button className="absolute top-4 right-4 bg-red-900" disabled>
-                  <BookmarkX className="mr-2" /> Difficult
+                  <BookmarkX className="mr-2"/> Difficult
                 </Button>
               ) : (
                 <Button
                   className="absolute top-4 right-4 bg-red-900"
                   onClick={(event) => handleDifficulty(event, currentCard)}
                 >
-                  <BookmarkX className="mr-2" /> Mark as difficult
+                  <BookmarkX className="mr-2"/> Mark as difficult
                 </Button>
               )}
             </Card>
