@@ -50,7 +50,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
           {set && <h1>{set.name}</h1>}
           <div className="w-96">{set && <SetTags set={set} canEdit />}</div>
           <Separator />
-          <a href={`${params.setId}/game`}>
+          <a href={`/sets/${params.setId}/game`}>
             <Button className="w-full py-8 shadow-xl" variant="positive">
               PLAY NOW
               <Play className="ml-2" size={16} fill="#e8f0ff" />
