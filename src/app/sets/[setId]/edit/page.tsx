@@ -66,7 +66,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
                   );
                 }}
                 value="public"
-                className={`${isPublic ? "bg-primary text-white" : "bg-card-foreground dark:bg-secondary"}`}
+                className={`${isPublic ? "bg-primary text-white" : "bg-card dark:bg-secondary"}`}
               >
                 Public
               </ToggleGroupItem>
@@ -78,7 +78,7 @@ const FlashCardSetPage = ({ params }: FlashCardSetPageProps) => {
                   );
                 }}
                 value="private"
-                className={`${isPublic ? "bg-card-foreground dark:bg-secondary" : "bg-primary text-white"}`}
+                className={`${isPublic ? "bg-card dark:bg-secondary" : "bg-primary text-white"}`}
               >
                 Private
               </ToggleGroupItem>
