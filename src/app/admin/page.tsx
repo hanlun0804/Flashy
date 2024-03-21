@@ -13,8 +13,6 @@ const Adminpanel = () => {
     queryFn: () => getAdmins(),
   });
 
-  console.log(admins);
-
   if (!admins) {
     return null;
   }

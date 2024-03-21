@@ -26,15 +26,7 @@ const AdminSetter = () => {
   const queryClient = useQueryClient();
 
   const onAuthorise = async (data: z.infer<typeof AdminCreator>) => {
-    const currentDate = new Date();
-    const milliseconds = currentDate.getMilliseconds();
-    console.log(milliseconds);
-
     await setUserType(data.email, "admin");
-
-    const currentDate2 = new Date();
-    const milliseconds2 = currentDate2.getMilliseconds();
-    console.log(milliseconds2);
 
     toast({
       title: "User has been set as Admin",

@@ -45,8 +45,9 @@ const Explore = () => {
   };
 
   // Define options for the dropdown menu
-  const dropdownOptions =
-    allSets?.flatMap((set) => set.tags).filter((tag) => tag) || [];
+  const dropdownOptions = [
+    ...new Set(allSets?.flatMap((set) => set.tags).filter((tag) => tag) || []),
+  ];
 
   // State to manage selected options
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -84,7 +85,6 @@ const Explore = () => {
       userFavoriteSetIds?.includes(set.id),
     );
   }
-  console.log(dropdownOptions);
 
   return (
     <main className="mt-16">
@@ -149,8 +149,6 @@ const Explore = () => {
               <FlashcardDisplay
                 subject={set.name}
                 creator={set.createdBy}
-                role={user?.role}
-                setId={set.id}
               ></FlashcardDisplay>
             </Link>
           ))}

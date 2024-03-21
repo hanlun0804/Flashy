@@ -146,14 +146,9 @@ export const updateVisibility = async (
 ): Promise<void> => {
   const docRef = doc(db, "sets", id);
 
-  try {
-    await updateDoc(docRef, {
-      [publicSet]: isPublic,
-    } as any);
-    console.log("Visibility is updated");
-  } catch (error) {
-    console.error("Error occured while updating visibility: ", error);
-  }
+  await updateDoc(docRef, {
+    [publicSet]: isPublic,
+  } as any);
 };
 
 /**

@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Share2, Pencil, Play } from "lucide-react";
+import { Share2, Pencil, Play, Heart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FlashcardSet } from "@/types/flashcard-set";
@@ -16,11 +16,12 @@ import {
 import { DialogFooter, DialogHeader } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addCanEdit } from "@/actions/flashcard-set-actions";
 import { User } from "@/types/user-type";
 import { useToast } from "@/components/ui/use-toast";
 import AdminDeleteSet from "@/components/explore/admin-delete-set";
+import { getUserById } from "@/actions/login-actions";
 
 interface PreviewProps {
   set: FlashcardSet;
@@ -35,8 +36,15 @@ interface PreviewProps {
  */
 const SetInfo = ({ set, user }: PreviewProps) => {
   const [email, setEmail] = useState("");
+  const [createdBy, setCreatedBy] = useState<User | undefined>(undefined);
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (set) {
+      getUserById(set.createdBy).then((user) => setCreatedBy(user));
+    }
+  }, [set]);
 
   const share = async () => {
     if (email === "") {
@@ -56,12 +64,19 @@ const SetInfo = ({ set, user }: PreviewProps) => {
 
   return (
     <Card key={set.id} className="mb-4">
-      <CardHeader>
-        <Link href={`/sets/${set.id}`}>
-          <Button variant="link" className="px-0">
-            <CardTitle>{set.name}</CardTitle>
-          </Button>
-        </Link>
+      <CardHeader className="flex justify-between flex-row">
+        <div className="flex flex-col justify-start">
+          <Link href={`/sets/${set.id}`}>
+            <Button variant="link" className="px-0">
+              <CardTitle>{set.name}</CardTitle>
+            </Button>
+          </Link>
+          <span>Created by {createdBy?.name}</span>
+        </div>
+        <div>
+          <Heart size={24} />
+          <span className="ml-2">{set.likes ? set.likes : 0}</span>
+        </div>
       </CardHeader>
 
       {/* Edit and start flashcards buttons */}
@@ -88,19 +103,17 @@ const SetInfo = ({ set, user }: PreviewProps) => {
                     The person you share with will be able to edit your sets.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-6 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
-                      Email
-                    </Label>
-                    <Input
-                      type="email"
-                      id="name"
-                      placeholder="example@email.com"
-                      className="col-span-5"
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="name" className="text-left">
+                    Email
+                  </Label>
+                  <Input
+                    type="email"
+                    id="name"
+                    placeholder="example@email.com"
+                    className="w-full mt-2"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <DialogFooter>
                   <DialogClose>

@@ -83,10 +83,10 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="question">Spørsmål</FormLabel>
+                <FormLabel htmlFor="question">Question</FormLabel>
                 <Input
                   {...field}
-                  placeholder={"Spørsmål"}
+                  placeholder={"Question"}
                   className="border-primary placeholder:text-backrgound"
                 />
               </FormItem>
@@ -94,7 +94,7 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
           />
 
           <FormItem>
-            <FormLabel htmlFor="image">Bilde til spørsmål</FormLabel>
+            <FormLabel htmlFor="image">Image for question</FormLabel>
             <Input
               type="file"
               id="imageq"
@@ -112,10 +112,10 @@ const CreateFlashcardForm = ({ flashcard, set }: CreateFlashcardFormProps) => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="answer">Svar</FormLabel>
+                <FormLabel htmlFor="answer">Answer</FormLabel>
                 <Input
                   {...field}
-                  placeholder={"Svar"}
+                  placeholder={"Answer"}
                   className="border-primary placeholder:text-backrgound"
                 />
               </FormItem>

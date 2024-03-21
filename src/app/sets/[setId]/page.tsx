@@ -20,7 +20,6 @@ interface FlashCardSetPageProps {
 export default function FlashcardPage({ params }: FlashCardSetPageProps) {
   const userSession = useUserSession();
   const queryClient = useQueryClient();
-  const [createdBy, setCreatedBy] = useState<User | undefined>(undefined);
 
   const { data: set } = useQuery({
     queryKey: ["set", params.setId],
@@ -45,12 +44,6 @@ export default function FlashcardPage({ params }: FlashCardSetPageProps) {
     });
   };
 
-  useEffect(() => {
-    if (set) {
-      getUserById(set.createdBy).then((user) => setCreatedBy(user));
-    }
-  }, [set]);
-
   return (
     <main className="mb-6">
       {set && (
@@ -59,12 +52,6 @@ export default function FlashcardPage({ params }: FlashCardSetPageProps) {
 
           <section className="max-w-4xl mx-auto mt-6">
             <SetInfo set={set} user={user} />
-            <Card className="p-6 mb-4">
-              <CardTitle className="text-lg">
-                Likes: {set.likes > 0 ? set.likes : 0} | Created By:{" "}
-                {createdBy?.name}
-              </CardTitle>
-            </Card>
 
             <Card className="flex flex-col gap-4 pb-4">
               <CardTitle className="p-4 pb-0">Comments:</CardTitle>

@@ -11,14 +11,14 @@
 
     --placeholder: 210 40% 96.1%;
 
-    --background: var(--clr_bg);
+    --background: 210, 4%, 96%;
     --foreground: var(--clr_text);
 
-    --card: 219, 24%, 23%;
-    --card-foreground: 219, 100%, 95%;
+    --card: 219, 12%, 96%;
+    --card-foreground: 218, 0%, 10%;
 
-    --popover: 218, 23%, 14%;
-    --popover-foreground: 219, 100%, 95%;
+    --popover: 207, 4%, 96%;
+    --popover-foreground: 218, 0%, 10;
 
     --primary: 212, 46%, 36%;
     --primary-foreground: 210 40% 98%;
@@ -28,8 +28,8 @@
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --muted: 219, 24%, 23%;
-    --muted-foreground: 219, 100%, 95%;
+    --muted: 207, 12%, 89%;
+    --muted-foreground: 207, 13%, 66%;
 
     --accent: 218, 23%, 14%;
     --accent-foreground: 219, 100%, 95%;
@@ -49,6 +49,9 @@
     --clr_primary: #274060;
     --clr_secondary: #485265;
     --clr_text: #e8f0ff;
+
+    --card: 219, 24%, 23%;
+    --card-foreground: 219, 100%, 95%;
 
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
